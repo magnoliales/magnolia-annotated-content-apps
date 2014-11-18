@@ -38,3 +38,11 @@ For the compilation add the following repositories to your a profile in `setting
     ...
 </settings>
 ```
+
+
+todo
+====
+
+- Automatically add apps into the annotated-content-apps module and to the ui-admincentral app launcher ( * in progress * )
+- Automatically scan packages for annotated content apps to remove the requirement of separate AppDescriptor classes
+- Integrate apps with a ContentConnector to pull remote content, eg Twitter
