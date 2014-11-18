@@ -4,9 +4,9 @@
     <name>example-annotated-app</name>
     <displayName>Magnolia Annotated Content Apps</displayName>
     <description>Annotated content apps for Magnolia</description>
-    <class>app.ExampleAnnotatedAppAppDescriptor</class>
+    <class>setup.ExampleAnnotatedContentAppModule</class>
+    <versionHandler>setup.ExampleAnnotatedContentAppVersionHandler</versionHandler>
     <version>1.0.0</version>
-
     <dependencies>
         <dependency>
             <name>activation</name>
@@ -20,7 +20,7 @@
         <repository>
             <name>magnolia</name>
             <workspaces>
-                <workspace>members</workspace>
+                <workspace>contacts</workspace>
             </workspaces>
             <nodeTypeFile>/mgnl-nodetypes/nodetypes.xml</nodeTypeFile>
         </repository>
