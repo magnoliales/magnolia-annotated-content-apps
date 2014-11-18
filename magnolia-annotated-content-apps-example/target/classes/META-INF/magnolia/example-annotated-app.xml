@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module SYSTEM "module.dtd" >
+<module>
+    <name>example-annotated-app</name>
+    <displayName>Magnolia Annotated Content Apps</displayName>
+    <description>Annotated content apps for Magnolia</description>
+    <class>app.ExampleAnnotatedAppAppDescriptor</class>
+    <version>1.0.0</version>
+
+    <dependencies>
+        <dependency>
+            <name>activation</name>
+        </dependency>
+        <dependency>
+            <name>annotated-app</name>
+        </dependency>
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <name>magnolia</name>
+            <workspaces>
+                <workspace>members</workspace>
+            </workspaces>
+            <nodeTypeFile>/mgnl-nodetypes/nodetypes.xml</nodeTypeFile>
+        </repository>
+    </repositories>
+</module>

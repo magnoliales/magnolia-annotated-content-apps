@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module SYSTEM "module.dtd" >
+<module>
+    <name>annotated-app</name>
+    <displayName>Magnolia Annotated Content Apps</displayName>
+    <description>Annotated content apps for Magnolia</description>
+    <class>com.magnoliales.annotatedapp.setup.AnnotatedContentAppsModule</class>
+    <versionHandler>com.magnoliales.annotatedapp.setup.AnnotatedContentAppsVersionHandler</versionHandler>
+    <version>1.0.0</version>
+    <dependencies>
+        <dependency>
+            <name>pages</name>
+        </dependency>
+    </dependencies>
+</module>
