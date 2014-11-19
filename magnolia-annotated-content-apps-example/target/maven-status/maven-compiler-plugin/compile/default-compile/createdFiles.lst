@@ -1,6 +1,6 @@
-app/ExampleAnnotatedAppAppDescriptor$MemberDropConstraint.class
+app/ExampleAnnotatedAppAppDescriptor$ContactDropConstraint.class
+app/ExampleAnnotatedAppAppDescriptor$ContactFormDialogDefinition.class
 setup/ExampleAnnotatedContentAppVersionHandler.class
 app/ExampleAnnotatedAppAppDescriptor.class
-app/ExampleAnnotatedAppAppDescriptor$MemberFormDialogDefinition.class
 setup/ExampleAnnotatedContentAppModule.class
 nodes/Contact.class

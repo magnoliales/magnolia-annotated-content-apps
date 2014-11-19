@@ -2,6 +2,7 @@ package nodes;
 
 import com.magnoliales.annotatedapp.UI;
 import com.magnoliales.annotatedapp.column.LastModifiedColumnBuilder;
+import com.magnoliales.annotatedapp.field.TextFieldGenerator;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
