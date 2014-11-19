@@ -4,10 +4,8 @@ package com.magnoliales.annotatedapp.setup;
 import info.magnolia.module.DefaultModuleVersionHandler;
 import info.magnolia.module.InstallContext;
 import info.magnolia.module.delta.Task;
-import info.magnolia.ui.admincentral.setup.JcrBrowserContentAppTask;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class AnnotatedContentAppsVersionHandler extends DefaultModuleVersionHandler {

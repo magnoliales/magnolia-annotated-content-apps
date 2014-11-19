@@ -2,8 +2,9 @@ package com.magnoliales.annotatedapp;
 
 import com.magnoliales.annotatedapp.column.AbstractColumnBuilder;
 import com.magnoliales.annotatedapp.column.PropertyColumnBuilder;
-import com.magnoliales.annotatedapp.field.*;
 import com.magnoliales.annotatedapp.field.CheckboxFieldBuilder;
+import com.magnoliales.annotatedapp.field.FieldBuilder;
+import com.magnoliales.annotatedapp.field.SelectFieldBuilder;
 import com.magnoliales.annotatedapp.field.TextFieldBuilder;
 
 import java.lang.annotation.ElementType;

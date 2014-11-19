@@ -1,15 +1,11 @@
 package com.magnoliales.annotatedapp.task;
 
 import com.magnoliales.annotatedapp.AnnotatedContentAppsAppDescriptor;
-import info.magnolia.cms.core.Content;
-import info.magnolia.cms.core.ItemType;
-import info.magnolia.cms.util.ContentUtil;
 import info.magnolia.jcr.util.NodeTypes;
 import info.magnolia.jcr.util.NodeUtil;
 import info.magnolia.module.InstallContext;
 import info.magnolia.module.delta.AbstractRepositoryTask;
 import info.magnolia.module.delta.TaskExecutionException;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;

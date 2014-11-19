@@ -2,6 +2,7 @@ package com.magnoliales.annotatedapp.field;
 
 import com.magnoliales.annotatedapp.UI;
 import info.magnolia.ui.form.field.definition.FieldDefinition;
+
 import java.lang.reflect.Field;
 
 public class TextFieldBuilder extends AbstractAnnotatedFieldBuilder<UI.Dialog.TextField> {
