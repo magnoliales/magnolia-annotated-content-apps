@@ -41,7 +41,7 @@ public class AnnotatedDropConstraint implements DropConstraint {
     @Override
     public boolean isAllowedAt(Item sourceItem, Item targetItem, MoveLocation location) {
         // @todo
-        return false;
+        return true;
     }
 
     @Override
