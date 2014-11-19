@@ -4,7 +4,7 @@ import info.magnolia.ui.form.field.definition.FieldDefinition;
 
 import java.lang.reflect.Field;
 
-public interface FieldGenerator {
+public interface FieldBuilder {
 
-    FieldDefinition generateFieldDefinition(Field field);
+    FieldDefinition buildFieldDefinition(Field field);
 }

@@ -1,19 +1,18 @@
 package com.magnoliales.annotatedapp.field;
 
 import com.magnoliales.annotatedapp.UI;
-import info.magnolia.ui.form.config.TextFieldBuilder;
 import info.magnolia.ui.form.field.definition.FieldDefinition;
 import java.lang.reflect.Field;
 
-public class TextFieldGenerator extends AbstractAnnotatedFieldGenerator<UI.Dialog.TextField> {
+public class TextFieldBuilder extends AbstractAnnotatedFieldBuilder<UI.Dialog.TextField> {
 
-    public TextFieldGenerator() {
+    public TextFieldBuilder() {
         super(UI.Dialog.TextField.class);
     }
 
     @Override
-    protected FieldDefinition doGenerateFieldDefinition(Field field, UI.Dialog.TextField annotation) {
-        return new TextFieldBuilder(field.getName())
+    protected FieldDefinition doBuildFieldDefinition(Field field, UI.Dialog.TextField annotation) {
+        return new info.magnolia.ui.form.config.TextFieldBuilder(field.getName())
                 .rows(Integer.parseInt(annotation.rows()))
                 .definition();
     }

@@ -1,27 +1,18 @@
 package com.magnoliales.annotatedapp.dialog;
 
 import com.magnoliales.annotatedapp.UI;
-import com.magnoliales.annotatedapp.field.FieldGenerator;
+import com.magnoliales.annotatedapp.field.FieldBuilder;
 import info.magnolia.ui.admincentral.dialog.action.CancelDialogActionDefinition;
 import info.magnolia.ui.admincentral.dialog.action.SaveDialogActionDefinition;
 import info.magnolia.ui.api.action.ActionDefinition;
 import info.magnolia.ui.dialog.definition.ConfiguredFormDialogDefinition;
-import info.magnolia.ui.form.config.CheckboxFieldBuilder;
-import info.magnolia.ui.form.config.SelectFieldBuilder;
-import info.magnolia.ui.form.config.TextFieldBuilder;
 import info.magnolia.ui.form.definition.ConfiguredFormDefinition;
 import info.magnolia.ui.form.definition.ConfiguredTabDefinition;
-import info.magnolia.ui.form.field.definition.CheckboxFieldDefinition;
-import info.magnolia.ui.form.field.definition.FieldDefinition;
-import info.magnolia.ui.form.field.definition.SelectFieldDefinition;
 import org.apache.commons.lang.WordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,9 +36,9 @@ public class AnnotatedFormDialogDefinition extends ConfiguredFormDialogDefinitio
         tab.setName("mainTab");
 
         for (Field field : nodeClass.getDeclaredFields()) {
-            Class<? extends FieldGenerator> fieldGeneratorClass = null;
+            Class<? extends FieldBuilder> fieldGeneratorClass = null;
             if(field.isAnnotationPresent(UI.Dialog.Field.class)) {
-                fieldGeneratorClass = field.getAnnotation(UI.Dialog.Field.class).implementation();
+                fieldGeneratorClass = field.getAnnotation(UI.Dialog.Field.class).value();
             } else if(field.isAnnotationPresent(UI.Dialog.CheckboxField.class)) {
                 fieldGeneratorClass = field.getAnnotation(UI.Dialog.CheckboxField.class).implementation();
             } else if (field.isAnnotationPresent(UI.Dialog.SelectField.class)) {
@@ -57,8 +48,8 @@ public class AnnotatedFormDialogDefinition extends ConfiguredFormDialogDefinitio
             }
             if(fieldGeneratorClass != null) {
                 try {
-                    FieldGenerator fieldGenerator = fieldGeneratorClass.newInstance();
-                    tab.addField(fieldGenerator.generateFieldDefinition(field));
+                    FieldBuilder fieldBuilder = fieldGeneratorClass.newInstance();
+                    tab.addField(fieldBuilder.buildFieldDefinition(field));
                 } catch (InstantiationException e) {
                     log.error("Could not create a new instance of '" + fieldGeneratorClass.getCanonicalName() + "', please ensure it has a 0 argument constructor");
                     e.printStackTrace();

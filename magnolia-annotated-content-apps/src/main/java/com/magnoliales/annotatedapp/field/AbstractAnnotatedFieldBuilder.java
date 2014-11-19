@@ -8,26 +8,26 @@ import org.slf4j.LoggerFactory;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
-public abstract class AbstractAnnotatedFieldGenerator<T extends Annotation> implements FieldGenerator {
+public abstract class AbstractAnnotatedFieldBuilder<T extends Annotation> implements FieldBuilder {
 
     private static final Logger log = LoggerFactory.getLogger(ConfiguredFormDialogDefinition.class);
 
     protected Class<T> annotationClass;
 
-    public AbstractAnnotatedFieldGenerator(Class<T> annotationClass) {
+    public AbstractAnnotatedFieldBuilder(Class<T> annotationClass) {
         this.annotationClass = annotationClass;
     }
 
-    public FieldDefinition generateFieldDefinition(Field field) {
+    public FieldDefinition buildFieldDefinition(Field field) {
 
         if (field.isAnnotationPresent(annotationClass)) {
-            return doGenerateFieldDefinition(field, field.getAnnotation(annotationClass));
+            return doBuildFieldDefinition(field, field.getAnnotation(annotationClass));
         } else {
             log.error("Field '" + field.getName() +"' from class '" + field.getDeclaringClass().getCanonicalName() + "'does not have required annotation of class '" + annotationClass.getCanonicalName() + "'" );
             return null;
         }
     }
 
-    protected abstract FieldDefinition doGenerateFieldDefinition(Field field, T annotation );
+    protected abstract FieldDefinition doBuildFieldDefinition(Field field, T annotation);
 
 }
