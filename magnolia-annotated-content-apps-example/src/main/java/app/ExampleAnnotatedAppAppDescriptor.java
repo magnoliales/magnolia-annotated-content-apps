@@ -8,19 +8,19 @@ import nodes.Contact;
 public class ExampleAnnotatedAppAppDescriptor extends AnnotatedContentAppsAppDescriptor {
 
     public ExampleAnnotatedAppAppDescriptor() {
-        super(Contact.class, MemberDropConstraint.class, new AnnotatedFormDialogDefinition[] {
-                new MemberFormDialogDefinition()
+        super(Contact.class, ContactDropConstraint.class, new AnnotatedFormDialogDefinition[] {
+                new ContactFormDialogDefinition()
         });
     }
 
-    public static class MemberDropConstraint extends AnnotatedDropConstraint {
-        public MemberDropConstraint() {
+    public static class ContactDropConstraint extends AnnotatedDropConstraint {
+        public ContactDropConstraint() {
             super(Contact.class);
         }
     }
 
-    public static class MemberFormDialogDefinition extends AnnotatedFormDialogDefinition {
-        public MemberFormDialogDefinition() {
+    public static class ContactFormDialogDefinition extends AnnotatedFormDialogDefinition {
+        public ContactFormDialogDefinition() {
             super(Contact.class);
         }
     }
