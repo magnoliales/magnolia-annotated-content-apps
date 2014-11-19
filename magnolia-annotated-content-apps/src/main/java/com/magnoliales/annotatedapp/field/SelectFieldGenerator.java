@@ -7,7 +7,7 @@ import info.magnolia.ui.form.field.definition.FieldDefinition;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 
-public class SelectFieldGenerator extends AnnotatedFieldGenerator<UI.Dialog.SelectField> {
+public class SelectFieldGenerator extends AbstractAnnotatedFieldGenerator<UI.Dialog.SelectField> {
 
     public SelectFieldGenerator() {
         super(UI.Dialog.SelectField.class);

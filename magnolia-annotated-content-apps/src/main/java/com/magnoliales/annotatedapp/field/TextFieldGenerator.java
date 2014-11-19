@@ -5,7 +5,7 @@ import info.magnolia.ui.form.config.TextFieldBuilder;
 import info.magnolia.ui.form.field.definition.FieldDefinition;
 import java.lang.reflect.Field;
 
-public class TextFieldGenerator extends AnnotatedFieldGenerator<UI.Dialog.TextField> {
+public class TextFieldGenerator extends AbstractAnnotatedFieldGenerator<UI.Dialog.TextField> {
 
     public TextFieldGenerator() {
         super(UI.Dialog.TextField.class);

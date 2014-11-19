@@ -7,7 +7,7 @@ import info.magnolia.ui.form.field.definition.FieldDefinition;
 
 import java.lang.reflect.Field;
 
-public class CheckboxFieldGenerator extends AnnotatedFieldGenerator<UI.Dialog.CheckboxField> {
+public class CheckboxFieldGenerator extends AbstractAnnotatedFieldGenerator<UI.Dialog.CheckboxField> {
 
     public CheckboxFieldGenerator() {
         super(UI.Dialog.CheckboxField.class);

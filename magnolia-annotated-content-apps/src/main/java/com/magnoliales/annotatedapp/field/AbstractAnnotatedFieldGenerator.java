@@ -8,13 +8,13 @@ import org.slf4j.LoggerFactory;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
-public abstract class AnnotatedFieldGenerator<T extends Annotation> implements FieldGenerator {
+public abstract class AbstractAnnotatedFieldGenerator<T extends Annotation> implements FieldGenerator {
 
     private static final Logger log = LoggerFactory.getLogger(ConfiguredFormDialogDefinition.class);
 
     protected Class<T> annotationClass;
 
-    public AnnotatedFieldGenerator(Class<T> annotationClass ) {
+    public AbstractAnnotatedFieldGenerator(Class<T> annotationClass) {
         this.annotationClass = annotationClass;
     }
 
