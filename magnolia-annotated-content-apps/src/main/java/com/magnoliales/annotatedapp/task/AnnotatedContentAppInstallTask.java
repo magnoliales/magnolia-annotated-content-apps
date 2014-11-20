@@ -38,7 +38,6 @@ public class AnnotatedContentAppInstallTask extends AbstractRepositoryTask {
         Node appNode = NodeUtil.createPath(appsNode, appName, NodeTypes.ContentNode.NAME);
         appNode.setProperty("class",appClass.getCanonicalName());
         addAppToLauncherLayout(installContext.getConfigJCRSession());
-        // add to the applauncher
     }
 
     protected void addAppToLauncherLayout(Session configJCRSession) throws RepositoryException {

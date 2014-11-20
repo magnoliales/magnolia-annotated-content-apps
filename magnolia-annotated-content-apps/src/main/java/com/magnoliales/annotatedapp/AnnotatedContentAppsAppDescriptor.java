@@ -20,10 +20,12 @@ import info.magnolia.ui.framework.app.BaseApp;
 import info.magnolia.ui.vaadin.integration.contentconnector.ConfiguredJcrContentConnectorDefinition;
 import info.magnolia.ui.vaadin.integration.contentconnector.ContentConnectorDefinition;
 import info.magnolia.ui.vaadin.integration.contentconnector.NodeTypeDefinition;
+import info.magnolia.ui.vaadin.integration.jcr.ModelConstants;
 import info.magnolia.ui.workbench.column.definition.ColumnDefinition;
 import info.magnolia.ui.workbench.definition.ConfiguredWorkbenchDefinition;
 import info.magnolia.ui.workbench.definition.ContentPresenterDefinition;
 import info.magnolia.ui.workbench.definition.WorkbenchDefinition;
+import info.magnolia.ui.workbench.list.ListPresenterDefinition;
 import info.magnolia.ui.workbench.tree.TreePresenterDefinition;
 import info.magnolia.ui.workbench.tree.drop.DropConstraint;
 import org.apache.commons.lang.WordUtils;
@@ -38,8 +40,6 @@ public class AnnotatedContentAppsAppDescriptor extends ConfiguredAppDescriptor {
     protected TypeTree typeTree;
     protected Class<? extends DropConstraint> dropConstraintClass;
     protected AnnotatedFormDialogDefinition[] dialogs;
-
-    BaseApp a;
 
     public AnnotatedContentAppsAppDescriptor(Class<?> nodeClass, Class<? extends DropConstraint> dropConstraintClass,
                                              AnnotatedFormDialogDefinition[] dialogs) {
@@ -60,17 +60,18 @@ public class AnnotatedContentAppsAppDescriptor extends ConfiguredAppDescriptor {
         }
 
         UI.Presenter.Column[] columnAnnotations = appAnnotation.columns();
-        getSubApps().put("browser", getBrowser(appName, workspace, columnAnnotations));
+        getSubApps().put("browser", getBrowser(workspace, columnAnnotations));
     }
 
-    private SubAppDescriptor getBrowser(String appName, String workspace, UI.Presenter.Column[] columnAnnotations) {
+    private SubAppDescriptor getBrowser(String workspace, UI.Presenter.Column[] columnAnnotations) {
         ConfiguredBrowserSubAppDescriptor browser = new ConfiguredBrowserSubAppDescriptor();
 
         browser.setSubAppClass(BrowserSubApp.class);
-        browser.setWorkbench(getWorkbench(appName, columnAnnotations));
+        browser.setWorkbench(getWorkbench(columnAnnotations));
         browser.setName("browser");
-        // @todo content connectector
-        browser.setContentConnector(getContentConnector(appName, workspace));
+
+        // @todo content connector
+        browser.setContentConnector(getContentConnector(workspace));
 
         ActionbarBuilder actionbarBuilder = new ActionbarBuilder().setName(getName());
         Map<String, ActionDefinition> actions = new HashMap<String, ActionDefinition>();
@@ -154,8 +155,7 @@ public class AnnotatedContentAppsAppDescriptor extends ConfiguredAppDescriptor {
         return null; // @todo throw exception;
     }
 
-    private List<NodeTypeDefinition> getNodeTypeDefinitions(String appName, TypeTree typeTree) {
-        // why do we need appName here?
+    private List<NodeTypeDefinition> getNodeTypeDefinitions(TypeTree typeTree) {
         List<NodeTypeDefinition> nodeTypeDefinitions = new ArrayList<NodeTypeDefinition>();
         for (String nodeTypeName : typeTree.getNodeTypeNames()) {
             AnnotatedNodeTypeDefinition nodeTypeDefinition = new AnnotatedNodeTypeDefinition();
@@ -165,22 +165,24 @@ public class AnnotatedContentAppsAppDescriptor extends ConfiguredAppDescriptor {
         return nodeTypeDefinitions;
     }
 
-    private WorkbenchDefinition getWorkbench(String appName, UI.Presenter.Column[] columnAnnotations) {
+    private WorkbenchDefinition getWorkbench(UI.Presenter.Column[] columnAnnotations) {
         ConfiguredWorkbenchDefinition workbench = new ConfiguredWorkbenchDefinition();
         workbench.setName("workbench");
         workbench.setDropConstraintClass(dropConstraintClass);
         List<ContentPresenterDefinition> presenters = new ArrayList<ContentPresenterDefinition>();
         presenters.add(getTree(columnAnnotations));
+        presenters.add(getList(columnAnnotations));
         workbench.setContentViews(presenters);
 
         return workbench;
     }
 
-    private ContentConnectorDefinition getContentConnector(String appName, String workspace) {
+    private ContentConnectorDefinition getContentConnector(String workspace) {
         ConfiguredJcrContentConnectorDefinition contentConnector = new ConfiguredJcrContentConnectorDefinition();
         contentConnector.setRootPath("/");
         contentConnector.setWorkspace(workspace);
-        contentConnector.setNodeTypes(getNodeTypeDefinitions(appName, typeTree));
+        contentConnector.setNodeTypes(getNodeTypeDefinitions(typeTree));
+        contentConnector.setDefaultOrder("jcrName");
         contentConnector.setIncludeProperties(false);
         return contentConnector;
     }
@@ -214,4 +216,34 @@ public class AnnotatedContentAppsAppDescriptor extends ConfiguredAppDescriptor {
         tree.setColumns(columns);
         return tree;
     }
+
+    private ContentPresenterDefinition getList(UI.Presenter.Column[] columnAnnotations) {
+        ListPresenterDefinition list = new ListPresenterDefinition();
+        List<ColumnDefinition> columns = new ArrayList<ColumnDefinition>();
+        Map<String, String> fieldMapping = typeTree.getFieldMapping();
+        for (UI.Presenter.Column columnAnnotation : columnAnnotations) {
+            String name = columnAnnotation.name();
+            if (columnAnnotation.builder().equals(PropertyColumnBuilder.class)) {
+                ColumnDefinition column = new PropertyColumnBuilder()
+                        .setName(name)
+                        .setPropertyName(fieldMapping.get(name))
+                        .definition();
+                columns.add(column);
+            } else if (columnAnnotation.builder().equals(StatusColumnBuilder.class)) {
+                ColumnDefinition column = new StatusColumnBuilder()
+                        .setName(name)
+                        .definition();
+                columns.add(column);
+            } else if (columnAnnotation.builder().equals(LastModifiedColumnBuilder.class)) {
+                ColumnDefinition column = new LastModifiedColumnBuilder()
+                        .setName(name)
+                        .definition();
+                columns.add(column);
+            }
+            // @todo scream an we don't know what to do with the column
+        }
+        list.setColumns(columns);
+        return list;
+    }
+
 }
