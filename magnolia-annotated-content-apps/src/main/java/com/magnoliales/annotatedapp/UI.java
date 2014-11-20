@@ -30,6 +30,11 @@ public interface UI {
         @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.TYPE})
         public @interface Column {
             public String name();
+            public String property() default "jcrName";
+            public boolean editable() default false;
+            public boolean sortable() default false;
+            public int width() default -1;
+            public float expandRatio() default (float)1.0;
             public Class<? extends AbstractColumnBuilder> builder() default PropertyColumnBuilder.class;
         }
     }

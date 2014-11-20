@@ -9,8 +9,8 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 @UI.App(name = "Example Annotated App",
         workspace = "contacts",
         columns = {
-                @UI.Presenter.Column(name = "name"),
-                @UI.Presenter.Column(name = "surname"),
+                @UI.Presenter.Column(name = "name", property = "name"),
+                @UI.Presenter.Column(name = "surname", property = "surname"),
                 @UI.Presenter.Column(name = "lastModified", builder = LastModifiedColumnBuilder.class)
         })
 public class Contact {

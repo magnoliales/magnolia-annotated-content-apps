@@ -9,7 +9,8 @@ public class StatusColumnBuilder extends AbstractColumnBuilder<StatusColumnBuild
     public ColumnDefinition definition() {
         StatusColumnDefinition columnDefinition = new StatusColumnDefinition();
         columnDefinition.setName(name);
-        columnDefinition.setWidth(45);
+        columnDefinition.setWidth(width == -1 ? 45 : width);
+        columnDefinition.setSortable(sortable);
         return columnDefinition;
     }
 }

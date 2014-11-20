@@ -12,7 +12,8 @@ public class LastModifiedColumnBuilder extends AbstractColumnBuilder<LastModifie
         columnDefinition.setName(name);
         columnDefinition.setPropertyName("mgnl:lastModified");
         columnDefinition.setFormatterClass(DateColumnFormatter.class);
-        columnDefinition.setWidth(150);
+        columnDefinition.setWidth(width == -1 ? 150 : width);
+        columnDefinition.setSortable(sortable);
         return columnDefinition;
     }
 }

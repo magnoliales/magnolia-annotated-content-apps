@@ -3,6 +3,7 @@ package com.magnoliales.annotatedapp;
 import com.magnoliales.annotatedapp.actionbar.ActionbarBuilder;
 import com.magnoliales.annotatedapp.actions.*;
 import com.magnoliales.annotatedapp.availability.AvailabilityBuilder;
+import com.magnoliales.annotatedapp.column.AbstractColumnBuilder;
 import com.magnoliales.annotatedapp.column.LastModifiedColumnBuilder;
 import com.magnoliales.annotatedapp.column.PropertyColumnBuilder;
 import com.magnoliales.annotatedapp.column.StatusColumnBuilder;
@@ -15,6 +16,7 @@ import info.magnolia.ui.api.availability.AvailabilityDefinition;
 import info.magnolia.ui.contentapp.ContentApp;
 import info.magnolia.ui.contentapp.browser.BrowserSubApp;
 import info.magnolia.ui.contentapp.browser.ConfiguredBrowserSubAppDescriptor;
+import info.magnolia.ui.dialog.definition.ConfiguredFormDialogDefinition;
 import info.magnolia.ui.dialog.definition.FormDialogDefinition;
 import info.magnolia.ui.vaadin.integration.contentconnector.ConfiguredJcrContentConnectorDefinition;
 import info.magnolia.ui.vaadin.integration.contentconnector.ContentConnectorDefinition;
@@ -28,6 +30,8 @@ import info.magnolia.ui.workbench.search.SearchPresenterDefinition;
 import info.magnolia.ui.workbench.tree.TreePresenterDefinition;
 import info.magnolia.ui.workbench.tree.drop.DropConstraint;
 import org.apache.commons.lang.WordUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +39,8 @@ import java.util.List;
 import java.util.Map;
 
 public class AnnotatedContentAppsAppDescriptor extends ConfiguredAppDescriptor {
+
+    private static final Logger log = LoggerFactory.getLogger(ConfiguredFormDialogDefinition.class);
 
     protected TypeTree typeTree;
     protected Class<? extends DropConstraint> dropConstraintClass;
@@ -173,7 +179,6 @@ public class AnnotatedContentAppsAppDescriptor extends ConfiguredAppDescriptor {
         presenters.add(getListPresenter(columnAnnotations));
         presenters.add(getSearchPresenter(columnAnnotations));
         workbench.setContentViews(presenters);
-
         return workbench;
     }
 
@@ -189,90 +194,49 @@ public class AnnotatedContentAppsAppDescriptor extends ConfiguredAppDescriptor {
 
     private ContentPresenterDefinition getTreePresenter(UI.Presenter.Column[] columnAnnotations) {
         TreePresenterDefinition tree = new TreePresenterDefinition();
-        List<ColumnDefinition> columns = new ArrayList<ColumnDefinition>();
-        Map<String, String> fieldMapping = typeTree.getFieldMapping();
-        for (UI.Presenter.Column columnAnnotation : columnAnnotations) {
-            String name = columnAnnotation.name();
-            if (columnAnnotation.builder().equals(PropertyColumnBuilder.class)) {
-                ColumnDefinition column = new PropertyColumnBuilder()
-                        .setName(name)
-                        .setPropertyName(fieldMapping.get(name))
-                        .definition();
-                columns.add(column);
-            } else if (columnAnnotation.builder().equals(StatusColumnBuilder.class)) {
-                ColumnDefinition column = new StatusColumnBuilder()
-                        .setName(name)
-                        .definition();
-                columns.add(column);
-            } else if (columnAnnotation.builder().equals(LastModifiedColumnBuilder.class)) {
-                ColumnDefinition column = new LastModifiedColumnBuilder()
-                        .setName(name)
-                        .definition();
-                columns.add(column);
-            }
-
-            // @todo scream an we don't know what to do with the column
-        }
-        tree.setColumns(columns);
+        tree.setColumns(getPresenterColumns(columnAnnotations));
         return tree;
     }
 
     private ContentPresenterDefinition getListPresenter(UI.Presenter.Column[] columnAnnotations) {
         ListPresenterDefinition list = new ListPresenterDefinition();
-        List<ColumnDefinition> columns = new ArrayList<ColumnDefinition>();
-        Map<String, String> fieldMapping = typeTree.getFieldMapping();
-        for (UI.Presenter.Column columnAnnotation : columnAnnotations) {
-            String name = columnAnnotation.name();
-            if (columnAnnotation.builder().equals(PropertyColumnBuilder.class)) {
-                ColumnDefinition column = new PropertyColumnBuilder()
-                        .setName(name)
-                        .setPropertyName(fieldMapping.get(name))
-                        .definition();
-                columns.add(column);
-            } else if (columnAnnotation.builder().equals(StatusColumnBuilder.class)) {
-                ColumnDefinition column = new StatusColumnBuilder()
-                        .setName(name)
-                        .definition();
-                columns.add(column);
-            } else if (columnAnnotation.builder().equals(LastModifiedColumnBuilder.class)) {
-                ColumnDefinition column = new LastModifiedColumnBuilder()
-                        .setName(name)
-                        .definition();
-                columns.add(column);
-            }
-            // @todo scream an we don't know what to do with the column
-        }
-        list.setColumns(columns);
+        list.setColumns(getPresenterColumns(columnAnnotations));
         return list;
     }
 
     private ContentPresenterDefinition getSearchPresenter(UI.Presenter.Column[] columnAnnotations) {
         SearchPresenterDefinition searchPresenter = new SearchPresenterDefinition();
+        searchPresenter.setColumns(getPresenterColumns(columnAnnotations));
+        return searchPresenter;
+    }
+
+    private List<ColumnDefinition> getPresenterColumns(UI.Presenter.Column[] columnAnnotations) {
         List<ColumnDefinition> columns = new ArrayList<ColumnDefinition>();
         Map<String, String> fieldMapping = typeTree.getFieldMapping();
         for (UI.Presenter.Column columnAnnotation : columnAnnotations) {
-            String name = columnAnnotation.name();
-            if (columnAnnotation.builder().equals(PropertyColumnBuilder.class)) {
-                ColumnDefinition column = new PropertyColumnBuilder()
-                        .setName(name)
-                        .setPropertyName(fieldMapping.get(name))
-                        .definition();
-                columns.add(column);
-            } else if (columnAnnotation.builder().equals(StatusColumnBuilder.class)) {
-                ColumnDefinition column = new StatusColumnBuilder()
-                        .setName(name)
-                        .definition();
-                columns.add(column);
-            } else if (columnAnnotation.builder().equals(LastModifiedColumnBuilder.class)) {
-                ColumnDefinition column = new LastModifiedColumnBuilder()
-                        .setName(name)
-                        .definition();
-                columns.add(column);
+            Class<? extends AbstractColumnBuilder> builderClass = columnAnnotation.builder();
+            AbstractColumnBuilder builder = null;
+            try {
+                builder = builderClass.newInstance();
+            } catch (InstantiationException e) {
+                log.error("Could not create a new instance of '" + builderClass.getCanonicalName() + "', please ensure it has a 0 argument constructor");
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                log.error("Could not create a new instance of '" + builderClass.getCanonicalName() + "', please ensure it has a 0 argument constructor");
+                e.printStackTrace();
             }
-            // @todo scream an we don't know what to do with the column
+            if (builder != null) {
+                builder.setName(columnAnnotation.name());
+                builder.setPropertyName(columnAnnotation.property());
+                builder.setWidth(columnAnnotation.width());
+                builder.setEditable(columnAnnotation.editable());
+                builder.setExpandRatio(columnAnnotation.expandRatio());
+                builder.setSortable(columnAnnotation.sortable());
+                columns.add(builder.definition());
+            }
         }
-        searchPresenter.setColumns(columns);
-        return searchPresenter;
+        return  columns;
     }
+
 
 }
