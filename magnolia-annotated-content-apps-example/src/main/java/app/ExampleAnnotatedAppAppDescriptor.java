@@ -8,9 +8,7 @@ import nodes.Contact;
 public class ExampleAnnotatedAppAppDescriptor extends AnnotatedContentAppsAppDescriptor {
 
     public ExampleAnnotatedAppAppDescriptor() {
-        super(Contact.class, ContactDropConstraint.class, new AnnotatedFormDialogDefinition[] {
-                new ContactFormDialogDefinition()
-        });
+        super(Contact.class, ContactDropConstraint.class);
     }
 
     public static class ContactDropConstraint extends AnnotatedDropConstraint {
@@ -19,9 +17,4 @@ public class ExampleAnnotatedAppAppDescriptor extends AnnotatedContentAppsAppDes
         }
     }
 
-    public static class ContactFormDialogDefinition extends AnnotatedFormDialogDefinition {
-        public ContactFormDialogDefinition() {
-            super(Contact.class);
-        }
-    }
 }

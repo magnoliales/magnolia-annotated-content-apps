@@ -16,20 +16,16 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AnnotatedFormDialogDefinition extends ConfiguredFormDialogDefinition {
+enum AnnotatedFormDialogDefinitionFactory {
 
-    private static final Logger log = LoggerFactory.getLogger(AnnotatedFormDialogDefinition.class);
+    INSTANCE;
 
-    protected Class<?> nodeClass;
+    private static final Logger log = LoggerFactory.getLogger(AnnotatedFormDialogDefinitionFactory.class);
 
-    public Class<?> getNodeClass() {
-        return nodeClass;
-    }
+    public ConfiguredFormDialogDefinition createFormDialogDefinition(Class<?> nodeClass) {
 
-    public AnnotatedFormDialogDefinition(Class<?> nodeClass) {
-
-        this.nodeClass = nodeClass;
-        this.setId(WordUtils.uncapitalize(nodeClass.getSimpleName()));
+        ConfiguredFormDialogDefinition definition = new ConfiguredFormDialogDefinition();
+        definition.setId(WordUtils.uncapitalize(nodeClass.getSimpleName()));
 
         ConfiguredFormDefinition form = new ConfiguredFormDefinition();
         ConfiguredTabDefinition tab = new ConfiguredTabDefinition();
@@ -61,13 +57,14 @@ public class AnnotatedFormDialogDefinition extends ConfiguredFormDialogDefinitio
         }
 
         form.addTab(tab);
-        setForm(form);
+        definition.setForm(form);
 
         Map<String, ActionDefinition> actions = new HashMap<String, ActionDefinition>();
         //actions.put("save", getSaveAction());
         actions.put("commit", getCommitAction());
         actions.put("cancel", getCancelAction());
-        setActions(actions);
+        definition.setActions(actions);
+        return definition;
     }
 
     private ActionDefinition getSaveAction() {

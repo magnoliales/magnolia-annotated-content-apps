@@ -44,13 +44,10 @@ public class AnnotatedContentAppsAppDescriptor extends ConfiguredAppDescriptor {
 
     protected TypeTree typeTree;
     protected Class<? extends DropConstraint> dropConstraintClass;
-    protected AnnotatedFormDialogDefinition[] dialogs;
 
-    public AnnotatedContentAppsAppDescriptor(Class<?> nodeClass, Class<? extends DropConstraint> dropConstraintClass,
-                                             AnnotatedFormDialogDefinition[] dialogs) {
+    public AnnotatedContentAppsAppDescriptor(Class<?> nodeClass, Class<? extends DropConstraint> dropConstraintClass) {
 
         this.dropConstraintClass = dropConstraintClass;
-        this.dialogs = dialogs;
 
         typeTree = TypeTree.read(nodeClass);
         UI.App appAnnotation = nodeClass.getAnnotation(UI.App.class);
@@ -106,19 +103,18 @@ public class AnnotatedContentAppsAppDescriptor extends ConfiguredAppDescriptor {
                     .setNodes(true)
                     .addNodeType(nodeTypeName)
                     .definition();
-
-            FormDialogDefinition formDialogDefinition = getFormDialogDefinition(typeSubTree.getRootType());
+            Class<?> nodeClass = typeSubTree.getRootType();
             ActionDefinition addAction = new AddActionBuilder()
                     .setAppName(getName())
                     .setName(addActionName)
-                    .setFormDialogDefinition(formDialogDefinition)
+                    .setFormDialogNodeClass(nodeClass)
                     .setNodeType(nodeTypeName)
                     .setAvailability(addActionAvailability)
                     .definition();
             ActionDefinition editAction = new EditActionBuilder()
                     .setAppName(getName())
                     .setName(editActionName)
-                    .setFormDialogDefinition(formDialogDefinition)
+                    .setFormDialogNodeClass(nodeClass)
                     .setAvailability(editAndDeleteActionAvailability)
                     .definition();
             ActionDefinition deleteAction = new DeleteActionBuilder()
@@ -149,15 +145,6 @@ public class AnnotatedContentAppsAppDescriptor extends ConfiguredAppDescriptor {
         browser.setActionbar(actionbarBuilder.definition());
 
         return browser;
-    }
-
-    private AnnotatedFormDialogDefinition getFormDialogDefinition(Class<?> nodeClass) {
-        for (AnnotatedFormDialogDefinition dialog : dialogs) {
-            if (dialog.getNodeClass().equals(nodeClass)) {
-                return dialog;
-            }
-        }
-        return null; // @todo throw exception;
     }
 
     private List<NodeTypeDefinition> getNodeTypeDefinitions(TypeTree typeTree) {

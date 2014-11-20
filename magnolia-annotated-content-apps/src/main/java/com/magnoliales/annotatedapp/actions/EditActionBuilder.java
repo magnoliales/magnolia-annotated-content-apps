@@ -3,7 +3,6 @@ package com.magnoliales.annotatedapp.actions;
 import com.magnoliales.annotatedapp.dialog.AnnotatedFormDialogDefinitionProvider;
 import info.magnolia.objectfactory.Components;
 import info.magnolia.ui.api.action.ActionDefinition;
-import info.magnolia.ui.dialog.definition.FormDialogDefinition;
 import info.magnolia.ui.dialog.registry.DialogDefinitionRegistry;
 import info.magnolia.ui.framework.action.OpenEditDialogActionDefinition;
 
@@ -11,7 +10,7 @@ public class EditActionBuilder extends AbstractActionBuilder<EditActionBuilder> 
 
     protected String name;
     protected String appName;
-    protected FormDialogDefinition formDialogDefinition;
+    protected Class<?> nodeClass;
 
     public EditActionBuilder setName(String name) {
         this.name = name;
@@ -23,8 +22,8 @@ public class EditActionBuilder extends AbstractActionBuilder<EditActionBuilder> 
         return this;
     }
 
-    public EditActionBuilder setFormDialogDefinition(FormDialogDefinition formDialogDefinition) {
-        this.formDialogDefinition = formDialogDefinition;
+    public EditActionBuilder setFormDialogNodeClass(Class<?> nodeClass) {
+        this.nodeClass = nodeClass;
         return this;
     }
 
@@ -34,7 +33,8 @@ public class EditActionBuilder extends AbstractActionBuilder<EditActionBuilder> 
         String id = appName + ":" + name;
 
         Components.getComponent(DialogDefinitionRegistry.class).register(
-                new AnnotatedFormDialogDefinitionProvider(id, formDialogDefinition));
+                new AnnotatedFormDialogDefinitionProvider(id, nodeClass)
+        );
 
         OpenEditDialogActionDefinition definition = new OpenEditDialogActionDefinition();
         definition.setName(name);

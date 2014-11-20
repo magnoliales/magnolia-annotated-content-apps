@@ -1,5 +1,4 @@
 app/ExampleAnnotatedAppAppDescriptor$ContactDropConstraint.class
-app/ExampleAnnotatedAppAppDescriptor$ContactFormDialogDefinition.class
 setup/ExampleAnnotatedContentAppVersionHandler.class
 app/ExampleAnnotatedAppAppDescriptor.class
 setup/ExampleAnnotatedContentAppModule.class
