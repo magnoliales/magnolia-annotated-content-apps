@@ -2,7 +2,6 @@ package app;
 
 import com.magnoliales.annotatedapp.AnnotatedContentAppsAppDescriptor;
 import com.magnoliales.annotatedapp.constraint.AnnotatedDropConstraint;
-import com.magnoliales.annotatedapp.dialog.AnnotatedFormDialogDefinition;
 import nodes.Contact;
 
 public class ExampleAnnotatedAppAppDescriptor extends AnnotatedContentAppsAppDescriptor {

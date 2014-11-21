@@ -1,7 +1,6 @@
 package com.magnoliales.annotatedapp.dialog;
 
 import info.magnolia.registry.RegistrationException;
-import info.magnolia.ui.dialog.definition.ConfiguredFormDialogDefinition;
 import info.magnolia.ui.dialog.definition.FormDialogDefinition;
 import info.magnolia.ui.dialog.formdialog.FormDialogPresenter;
 import info.magnolia.ui.dialog.formdialog.FormDialogPresenterImpl;
