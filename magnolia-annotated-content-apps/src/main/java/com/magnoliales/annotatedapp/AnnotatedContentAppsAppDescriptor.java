@@ -5,6 +5,7 @@ import com.magnoliales.annotatedapp.actions.*;
 import com.magnoliales.annotatedapp.availability.AvailabilityBuilder;
 import com.magnoliales.annotatedapp.column.AbstractColumnBuilder;
 import com.magnoliales.annotatedapp.node.AnnotatedNodeTypeDefinition;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import info.magnolia.ui.api.action.ActionDefinition;
 import info.magnolia.ui.api.app.SubAppDescriptor;
 import info.magnolia.ui.api.app.registry.ConfiguredAppDescriptor;
@@ -35,10 +36,11 @@ import java.util.Map;
 
 public class AnnotatedContentAppsAppDescriptor extends ConfiguredAppDescriptor {
 
-    private static final Logger log = LoggerFactory.getLogger(ConfiguredFormDialogDefinition.class);
+    private static final long serialVersionUID = 7496221475L;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConfiguredFormDialogDefinition.class);
 
-    protected TypeTree typeTree;
-    protected Class<? extends DropConstraint> dropConstraintClass;
+    private TypeTree typeTree;
+    private Class<? extends DropConstraint> dropConstraintClass;
 
     public AnnotatedContentAppsAppDescriptor(Class<?> nodeClass, Class<? extends DropConstraint> dropConstraintClass) {
 
@@ -52,7 +54,7 @@ public class AnnotatedContentAppsAppDescriptor extends ConfiguredAppDescriptor {
 
         setName(appName);
         setAppClass(ContentApp.class);
-        if(!theme.equalsIgnoreCase("")){
+        if (theme != null && !theme.isEmpty()) {
             setTheme(theme);
         }
 
@@ -70,8 +72,8 @@ public class AnnotatedContentAppsAppDescriptor extends ConfiguredAppDescriptor {
         // @todo content connector
         browser.setContentConnector(getContentConnector(workspace));
 
-        ActionbarBuilder actionbarBuilder = new ActionbarBuilder().setName(getName());
-        Map<String, ActionDefinition> actions = new HashMap<String, ActionDefinition>();
+        ActionbarBuilder actionbarBuilder = new ActionbarBuilder();
+        Map<String, ActionDefinition> actions = new HashMap<>();
 
         for (TypeTree typeSubTree : typeTree.toList()) {
 
@@ -121,7 +123,7 @@ public class AnnotatedContentAppsAppDescriptor extends ConfiguredAppDescriptor {
             actions.put(editActionName, editAction);
             actions.put(deleteActionName, deleteAction);
 
-            actionbarBuilder.addGroup(nodeTypeName, addActionName, editActionName, deleteActionName);
+            actionbarBuilder.addGroup("mainSection", addActionName, editActionName, deleteActionName);
         }
 
         AvailabilityDefinition completeAvailability = new AvailabilityBuilder().setRoot(true).setNodes(true).definition();
@@ -193,19 +195,16 @@ public class AnnotatedContentAppsAppDescriptor extends ConfiguredAppDescriptor {
     }
 
     private List<ColumnDefinition> getPresenterColumns(UI.Presenter.Column[] columnAnnotations) {
-        List<ColumnDefinition> columns = new ArrayList<ColumnDefinition>();
-        Map<String, String> fieldMapping = typeTree.getFieldMapping();
+        List<ColumnDefinition> columns = new ArrayList<>();
         for (UI.Presenter.Column columnAnnotation : columnAnnotations) {
             Class<? extends AbstractColumnBuilder> builderClass = columnAnnotation.builder();
             AbstractColumnBuilder builder = null;
             try {
                 builder = builderClass.newInstance();
-            } catch (InstantiationException e) {
-                log.error("Could not create a new instance of '" + builderClass.getCanonicalName() + "', please ensure it has a 0 argument constructor");
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                log.error("Could not create a new instance of '" + builderClass.getCanonicalName() + "', please ensure it has a 0 argument constructor");
-                e.printStackTrace();
+            } catch (InstantiationException | IllegalAccessException e) {
+                LOGGER.error("Could not create a new instance of '"
+                        + builderClass.getCanonicalName()
+                        + "'", e);
             }
             if (builder != null) {
                 builder.setName(columnAnnotation.name());
@@ -220,5 +219,19 @@ public class AnnotatedContentAppsAppDescriptor extends ConfiguredAppDescriptor {
         return  columns;
     }
 
+    @Override
+    @SuppressFBWarnings(justification = "Cannot change implementation in the parent class. "
+            + "Pretty sure it is a non issue")
+    public boolean equals(Object o) {
+        if (o instanceof AnnotatedContentAppsAppDescriptor) {
+            AnnotatedContentAppsAppDescriptor other = (AnnotatedContentAppsAppDescriptor) o;
+            return typeTree.getRootType().equals(other.typeTree.getRootType());
+        }
+        return false;
+    }
 
+    @Override
+    public int hashCode() {
+        return typeTree.getRootType().hashCode();
+    }
 }

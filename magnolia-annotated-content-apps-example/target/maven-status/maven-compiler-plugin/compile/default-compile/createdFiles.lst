@@ -1,5 +1,5 @@
-app/ExampleAnnotatedAppAppDescriptor$ContactDropConstraint.class
-setup/ExampleAnnotatedContentAppVersionHandler.class
-app/ExampleAnnotatedAppAppDescriptor.class
-setup/ExampleAnnotatedContentAppModule.class
-nodes/Contact.class
+setup\ExampleAnnotatedContentAppVersionHandler.class
+nodes\Contact.class
+setup\ExampleAnnotatedContentAppModule.class
+app\ExampleAnnotatedAppAppDescriptor$ContactDropConstraint.class
+app\ExampleAnnotatedAppAppDescriptor.class

@@ -1,6 +1,6 @@
 *.iml
-derby.log
+*.log
 .idea/
 .runtime/
-keypair.properties
 target/
+keypair.properties

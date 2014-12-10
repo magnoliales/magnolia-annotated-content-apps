@@ -8,9 +8,9 @@ import info.magnolia.ui.framework.action.OpenEditDialogActionDefinition;
 
 public class EditActionBuilder extends AbstractActionBuilder<EditActionBuilder> {
 
-    protected String name;
-    protected String appName;
-    protected Class<?> nodeClass;
+    private String name;
+    private String appName;
+    private Class<?> nodeClass;
 
     public EditActionBuilder setName(String name) {
         this.name = name;
@@ -29,18 +29,15 @@ public class EditActionBuilder extends AbstractActionBuilder<EditActionBuilder> 
 
     @Override
     public ActionDefinition definition() {
-
         String id = appName + ":" + name;
-
         Components.getComponent(DialogDefinitionRegistry.class).register(
                 new AnnotatedFormDialogDefinitionProvider(id, nodeClass)
         );
-
         OpenEditDialogActionDefinition definition = new OpenEditDialogActionDefinition();
         definition.setName(name);
         definition.setDialogName(id);
-        definition.setIcon(icon == null ? "icon-edit" : icon);
-        definition.setAvailability(availability);
+        definition.setIcon(getIcon("icon-edit"));
+        definition.setAvailability(getAvailability());
         return definition;
     }
 }

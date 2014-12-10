@@ -20,7 +20,7 @@ enum AnnotatedFormDialogDefinitionFactory {
 
     INSTANCE;
 
-    private static final Logger log = LoggerFactory.getLogger(AnnotatedFormDialogDefinitionFactory.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AnnotatedFormDialogDefinitionFactory.class);
 
     public ConfiguredFormDialogDefinition createFormDialogDefinition(Class<?> nodeClass) {
 
@@ -33,24 +33,23 @@ enum AnnotatedFormDialogDefinitionFactory {
 
         for (Field field : nodeClass.getDeclaredFields()) {
             Class<? extends FieldBuilder> fieldGeneratorClass = null;
-            if(field.isAnnotationPresent(UI.Dialog.Field.class)) {
+            if (field.isAnnotationPresent(UI.Dialog.Field.class)) {
                 fieldGeneratorClass = field.getAnnotation(UI.Dialog.Field.class).value();
-            } else if(field.isAnnotationPresent(UI.Dialog.CheckboxField.class)) {
+            } else if (field.isAnnotationPresent(UI.Dialog.CheckboxField.class)) {
                 fieldGeneratorClass = field.getAnnotation(UI.Dialog.CheckboxField.class).implementation();
             } else if (field.isAnnotationPresent(UI.Dialog.SelectField.class)) {
                 fieldGeneratorClass = field.getAnnotation(UI.Dialog.SelectField.class).implementation();
             } else if (field.isAnnotationPresent(UI.Dialog.TextField.class)) {
                 fieldGeneratorClass = field.getAnnotation(UI.Dialog.TextField.class).implementation();
             }
-            if(fieldGeneratorClass != null) {
+            if (fieldGeneratorClass != null) {
                 try {
                     FieldBuilder fieldBuilder = fieldGeneratorClass.newInstance();
                     tab.addField(fieldBuilder.buildFieldDefinition(field));
-                } catch (InstantiationException e) {
-                    log.error("Could not create a new instance of '" + fieldGeneratorClass.getCanonicalName() + "', please ensure it has a 0 argument constructor");
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    log.error("Could not create a new instance of '" + fieldGeneratorClass.getCanonicalName() + "', please ensure it has a 0 argument constructor");
+                } catch (InstantiationException | IllegalAccessException e) {
+                    LOGGER.error("Could not create a new instance of '"
+                            + fieldGeneratorClass.getCanonicalName()
+                            + "', please ensure it has a 0 argument constructor");
                     e.printStackTrace();
                 }
             }
@@ -59,18 +58,11 @@ enum AnnotatedFormDialogDefinitionFactory {
         form.addTab(tab);
         definition.setForm(form);
 
-        Map<String, ActionDefinition> actions = new HashMap<String, ActionDefinition>();
-        //actions.put("save", getSaveAction());
+        Map<String, ActionDefinition> actions = new HashMap<>();
         actions.put("commit", getCommitAction());
         actions.put("cancel", getCancelAction());
         definition.setActions(actions);
         return definition;
-    }
-
-    private ActionDefinition getSaveAction() {
-        SaveDialogActionDefinition actionDefinition = new SaveDialogActionDefinition();
-        actionDefinition.setName("save");
-        return actionDefinition;
     }
 
     private ActionDefinition getCommitAction() {

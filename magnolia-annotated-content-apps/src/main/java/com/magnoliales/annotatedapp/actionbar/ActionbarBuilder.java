@@ -8,8 +8,8 @@ import java.util.List;
 
 public class ActionbarBuilder {
 
-    private String name;
-    private List<Group> groups = new ArrayList<Group>();
+    private String name = "mainSection";
+    private List<Group> groups = new ArrayList<>();
 
     public ActionbarBuilder setName(String name) {
         this.name = name;
@@ -29,9 +29,9 @@ public class ActionbarBuilder {
     public ActionbarDefinition definition() {
         ConfiguredActionbarDefinition actionbarDefinition = new ConfiguredActionbarDefinition();
         ConfiguredActionbarSectionDefinition sectionDefinition = new ConfiguredActionbarSectionDefinition();
-        sectionDefinition.setName("mainSection");
+        sectionDefinition.setName(name);
         sectionDefinition.setAvailability(new AvailabilityBuilder().setRoot(true).setNodes(true).definition());
-        List<ActionbarGroupDefinition> groupDefinitions = new ArrayList<ActionbarGroupDefinition>();
+        List<ActionbarGroupDefinition> groupDefinitions = new ArrayList<>();
         for (Group group : groups) {
             ConfiguredActionbarGroupDefinition groupDefinition = new ConfiguredActionbarGroupDefinition();
             groupDefinition.setName(group.name);
@@ -47,9 +47,12 @@ public class ActionbarBuilder {
         return actionbarDefinition;
     }
 
-    private static class Group {
-        public String name;
-        public String[] actionNames;
+    private static final class Group {
+
+        private final String name;
+
+        private final String[] actionNames;
+
         private Group(String name, String[] actionNames) {
             this.name = name;
             this.actionNames = actionNames;

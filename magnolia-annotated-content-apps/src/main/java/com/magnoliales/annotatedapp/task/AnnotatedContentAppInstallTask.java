@@ -13,9 +13,9 @@ import javax.jcr.Session;
 
 public class AnnotatedContentAppInstallTask extends AbstractRepositoryTask {
 
-    protected Class<? extends AnnotatedContentAppsAppDescriptor> appClass;
-    protected String appName;
-    protected String appGroup;
+    private Class<? extends AnnotatedContentAppsAppDescriptor> appClass;
+    private String appName;
+    private String appGroup;
 
     public AnnotatedContentAppInstallTask(Class<? extends AnnotatedContentAppsAppDescriptor> appClass, String appGroup) {
         this(appClass.getSimpleName(), appGroup, appClass);
@@ -34,14 +34,15 @@ public class AnnotatedContentAppInstallTask extends AbstractRepositoryTask {
     @Override
     protected void doExecute(InstallContext installContext) throws RepositoryException, TaskExecutionException {
         Node moduleNode = installContext.getOrCreateCurrentModuleNode().getJCRNode();
-        Node appsNode = NodeUtil.createPath(moduleNode,"apps", NodeTypes.Content.NAME);
+        Node appsNode = NodeUtil.createPath(moduleNode, "apps", NodeTypes.Content.NAME);
         Node appNode = NodeUtil.createPath(appsNode, appName, NodeTypes.ContentNode.NAME);
-        appNode.setProperty("class",appClass.getCanonicalName());
+        appNode.setProperty("class", appClass.getCanonicalName());
         addAppToLauncherLayout(installContext.getConfigJCRSession());
     }
 
-    protected void addAppToLauncherLayout(Session configJCRSession) throws RepositoryException {
+    private void addAppToLauncherLayout(Session configJCRSession) throws RepositoryException {
         Node configNode = configJCRSession.getNode("/modules/ui-admincentral/config");
-        NodeUtil.createPath(configNode, "appLauncherLayout/groups/" + appGroup + "/apps/" + appName, NodeTypes.ContentNode.NAME);
+        NodeUtil.createPath(configNode, "appLauncherLayout/groups/" + appGroup + "/apps/" + appName,
+                NodeTypes.ContentNode.NAME);
     }
 }

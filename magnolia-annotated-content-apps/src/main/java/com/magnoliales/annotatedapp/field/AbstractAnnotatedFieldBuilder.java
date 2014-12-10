@@ -10,24 +10,27 @@ import java.lang.reflect.Field;
 
 public abstract class AbstractAnnotatedFieldBuilder<T extends Annotation> implements FieldBuilder {
 
-    private static final Logger log = LoggerFactory.getLogger(ConfiguredFormDialogDefinition.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConfiguredFormDialogDefinition.class);
 
-    protected Class<T> annotationClass;
+    private Class<T> annotationClass;
 
     public AbstractAnnotatedFieldBuilder(Class<T> annotationClass) {
         this.annotationClass = annotationClass;
     }
 
     public FieldDefinition buildFieldDefinition(Field field) {
-
         if (field.isAnnotationPresent(annotationClass)) {
             return doBuildFieldDefinition(field, field.getAnnotation(annotationClass));
         } else {
-            log.error("Field '" + field.getName() +"' from class '" + field.getDeclaringClass().getCanonicalName() + "'does not have required annotation of class '" + annotationClass.getCanonicalName() + "'" );
+            LOGGER.error("Field '"
+                    + field.getName()
+                    + "' from class '"
+                    + field.getDeclaringClass().getCanonicalName()
+                    + "'does not have required annotation of class '"
+                    + annotationClass.getCanonicalName() + "'");
             return null;
         }
     }
 
     protected abstract FieldDefinition doBuildFieldDefinition(Field field, T annotation);
-
 }

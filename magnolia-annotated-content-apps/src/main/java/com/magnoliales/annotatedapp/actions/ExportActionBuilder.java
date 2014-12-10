@@ -9,8 +9,8 @@ public class ExportActionBuilder extends AbstractActionBuilder<ExportActionBuild
         ExportActionDefinition actionDefinition = new ExportActionDefinition();
         actionDefinition.setCommand("export");
         actionDefinition.setName("export");
-        actionDefinition.setAvailability(availability);
-        actionDefinition.setIcon(icon == null ? "icon-export" : icon);
+        actionDefinition.setAvailability(getAvailability());
+        actionDefinition.setIcon(getIcon("icon-export"));
         return actionDefinition;
     }
 }

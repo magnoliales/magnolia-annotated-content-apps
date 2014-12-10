@@ -9,7 +9,8 @@ public class ImportActionBuilder extends AbstractActionBuilder<ImportActionBuild
     public ActionDefinition definition() {
         OpenCreateDialogActionDefinition actionDefinition = new OpenCreateDialogActionDefinition();
         actionDefinition.setDialogName("ui-admincentral:import");
-        actionDefinition.setIcon(icon == null ? "icon-import" : icon);
+        actionDefinition.setIcon(getIcon("icon-import"));
+        actionDefinition.setAvailability(getAvailability());
         actionDefinition.setName("import");
         return actionDefinition;
     }

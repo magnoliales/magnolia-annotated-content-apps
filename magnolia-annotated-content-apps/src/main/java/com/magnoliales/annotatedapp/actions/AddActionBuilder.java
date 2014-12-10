@@ -8,10 +8,10 @@ import info.magnolia.ui.framework.action.OpenCreateDialogActionDefinition;
 
 public class AddActionBuilder extends AbstractActionBuilder<AddActionBuilder> {
 
-    protected String name;
-    protected String appName;
-    protected String nodeType;
-    protected Class<?> nodeClass;
+    private String name;
+    private String appName;
+    private String nodeType;
+    private Class<?> nodeClass;
 
     public AddActionBuilder setName(String name) {
         this.name = name;
@@ -35,19 +35,16 @@ public class AddActionBuilder extends AbstractActionBuilder<AddActionBuilder> {
 
     @Override
     public ActionDefinition definition() {
-
         String id = appName + ":" + name;
-
         Components.getComponent(DialogDefinitionRegistry.class).register(
                 new AnnotatedFormDialogDefinitionProvider(id, nodeClass)
         );
-
         OpenCreateDialogActionDefinition definition = new OpenCreateDialogActionDefinition();
         definition.setName(name);
         definition.setDialogName(id);
         definition.setNodeType(nodeType);
-        definition.setIcon(icon == null ? "icon-add-node-content" : icon);
-        definition.setAvailability(availability);
+        definition.setIcon(getIcon("icon-add-node-content"));
+        definition.setAvailability(getAvailability());
         return definition;
     }
 }

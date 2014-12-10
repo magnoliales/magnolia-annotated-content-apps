@@ -11,7 +11,7 @@ public class AvailabilityBuilder {
 
     private boolean root;
     private boolean nodes;
-    private List<String> nodeTypes = new ArrayList<String>();
+    private List<String> nodeTypes = new ArrayList<>();
 
     public AvailabilityBuilder setRoot(boolean root) {
         this.root = root;

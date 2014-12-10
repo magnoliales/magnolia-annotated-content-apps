@@ -5,7 +5,7 @@ import info.magnolia.ui.framework.action.DeleteItemActionDefinition;
 
 public class DeleteActionBuilder extends AbstractActionBuilder<DeleteActionBuilder> {
 
-    protected String name;
+    private String name;
 
     public DeleteActionBuilder setName(String name) {
         this.name = name;
@@ -16,8 +16,8 @@ public class DeleteActionBuilder extends AbstractActionBuilder<DeleteActionBuild
     public ActionDefinition definition() {
         DeleteItemActionDefinition actionDefinition = new DeleteItemActionDefinition();
         actionDefinition.setName(name);
-        actionDefinition.setAvailability(availability);
-        actionDefinition.setIcon(icon == null ? "icon-delete" : icon);
+        actionDefinition.setAvailability(getAvailability());
+        actionDefinition.setIcon(getIcon("icon-delete"));
         return actionDefinition;
     }
 }

@@ -5,12 +5,14 @@ import info.magnolia.ui.workbench.column.definition.StatusColumnDefinition;
 
 public class StatusColumnBuilder extends AbstractColumnBuilder<StatusColumnBuilder> {
 
+    private static final int DEFAULT_WIDTH = 45;
+
     @Override
     public ColumnDefinition definition() {
         StatusColumnDefinition columnDefinition = new StatusColumnDefinition();
-        columnDefinition.setName(name);
-        columnDefinition.setWidth(width == -1 ? 45 : width);
-        columnDefinition.setSortable(sortable);
+        columnDefinition.setName(getName());
+        columnDefinition.setWidth(getWidth(DEFAULT_WIDTH));
+        columnDefinition.setSortable(isSortable());
         return columnDefinition;
     }
 }

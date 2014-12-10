@@ -3,16 +3,19 @@ package com.magnoliales.annotatedapp;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TypeTree {
+public final class TypeTree implements Serializable {
+
+    private static final long serialVersionUID = 7496221474L;
 
     private String nodeTypeName;
     private Class<?> rootClass;
-    private TypeTree parent = null;
+    private TypeTree parent;
     private List<TypeTree> children = new ArrayList<TypeTree>();
 
     private TypeTree(String nodeTypeName, Class<?> rootClass, List<TypeTree> children) {

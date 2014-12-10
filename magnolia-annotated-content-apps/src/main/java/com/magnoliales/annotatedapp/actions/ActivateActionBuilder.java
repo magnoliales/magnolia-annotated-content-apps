@@ -13,9 +13,9 @@ public class ActivateActionBuilder extends AbstractActionBuilder<ActivateActionB
         actionDefinition.setImplementationClass(ActivationAction.class);
         actionDefinition.setName("activate");
         actionDefinition.setCommand("activate");
-        actionDefinition.setIcon(icon == null ? "icon-publish-incl-sub" : icon);
+        actionDefinition.setIcon(getIcon("icon-publish-incl-sub"));
         actionDefinition.setRecursive(true);
-        actionDefinition.setAvailability(availability);
+        actionDefinition.setAvailability(getAvailability());
         return actionDefinition;
     }
 }

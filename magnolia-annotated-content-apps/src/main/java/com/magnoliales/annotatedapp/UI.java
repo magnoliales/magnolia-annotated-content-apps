@@ -14,59 +14,59 @@ import java.lang.annotation.Target;
 
 public interface UI {
 
-    @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.TYPE})
-    public @interface NoActivation{}
+    @Retention(RetentionPolicy.RUNTIME) @Target({ ElementType.TYPE })
+    public @interface NoActivation { }
 
-    @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.TYPE})
+    @Retention(RetentionPolicy.RUNTIME) @Target({ ElementType.TYPE })
     public @interface App {
-        public String name();
-        public String workspace();
-        public String theme() default "";
-        public Presenter.Column[] columns() default {};
+        String name();
+        String workspace();
+        String theme() default "";
+        Presenter.Column[] columns() default { };
     }
 
     public interface Presenter {
 
-        @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.TYPE})
+        @Retention(RetentionPolicy.RUNTIME) @Target({ ElementType.TYPE })
         public @interface Column {
-            public String name();
-            public String property() default "jcrName";
-            public boolean editable() default false;
-            public boolean sortable() default false;
-            public int width() default -1;
-            public float expandRatio() default (float)1.0;
-            public Class<? extends AbstractColumnBuilder> builder() default PropertyColumnBuilder.class;
+            String name();
+            String property() default "jcrName";
+            boolean editable() default false;
+            boolean sortable() default false;
+            int width() default -1;
+            float expandRatio() default 1.0F;
+            Class<? extends AbstractColumnBuilder> builder() default PropertyColumnBuilder.class;
         }
     }
 
     public interface Dialog {
 
-        @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD})
+        @Retention(RetentionPolicy.RUNTIME) @Target({ ElementType.FIELD })
         public @interface Field {
-            public Class<? extends FieldBuilder> value();
+            Class<? extends FieldBuilder> value();
         }
 
-        @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD})
+        @Retention(RetentionPolicy.RUNTIME) @Target({ ElementType.FIELD })
         public @interface TextField {
-            public String rows() default "1";
-            public Class<? extends FieldBuilder> implementation() default TextFieldBuilder.class;
+            String rows() default "1";
+            Class<? extends FieldBuilder> implementation() default TextFieldBuilder.class;
         }
 
-        @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD})
+        @Retention(RetentionPolicy.RUNTIME) @Target({ ElementType.FIELD })
         public @interface CheckboxField {
-            public boolean defaultValue() default false;
-            public Class<? extends FieldBuilder> implementation() default CheckboxFieldBuilder.class;
+            boolean defaultValue() default false;
+            Class<? extends FieldBuilder> implementation() default CheckboxFieldBuilder.class;
         }
 
-        @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD})
+        @Retention(RetentionPolicy.RUNTIME) @Target({ ElementType.FIELD })
         public @interface SelectField {
-            public String[] value() default {};
-            public Class<? extends FieldBuilder> implementation() default SelectFieldBuilder.class;
+            String[] value() default { };
+            Class<? extends FieldBuilder> implementation() default SelectFieldBuilder.class;
         }
     }
 
-    @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD})
+    @Retention(RetentionPolicy.RUNTIME) @Target({ ElementType.FIELD })
     public @interface ChildNodes {
-        public Class<?> childClassName() default Object.class;
+        Class<?> childClassName() default Object.class;
     }
 }

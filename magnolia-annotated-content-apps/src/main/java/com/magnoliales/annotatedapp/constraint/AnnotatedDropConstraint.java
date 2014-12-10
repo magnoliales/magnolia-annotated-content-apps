@@ -11,7 +11,7 @@ import javax.jcr.RepositoryException;
 
 public class AnnotatedDropConstraint implements DropConstraint {
 
-    protected TypeTree typeTree;
+    private TypeTree typeTree;
 
     public AnnotatedDropConstraint(Class<?> nodeClass) {
 
@@ -20,7 +20,7 @@ public class AnnotatedDropConstraint implements DropConstraint {
 
     private Node getNodeFromItem(Item item) {
         JcrItemAdapter jcrItemAdapter = (JcrItemAdapter) item;
-        if(jcrItemAdapter != null && jcrItemAdapter.isNode()){
+        if (jcrItemAdapter != null && jcrItemAdapter.isNode()) {
             return (Node) jcrItemAdapter.getJcrItem();
         }
         return null;
