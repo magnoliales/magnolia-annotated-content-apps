@@ -61,38 +61,12 @@
         <dependency>
             <groupId>com.magnoliales</groupId>
             <artifactId>magnolia-annotated-content-apps</artifactId>
-            <version>0.1.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>info.magnolia</groupId>
-            <artifactId>magnolia-empty-webapp</artifactId>
-            <type>pom</type>
-            <scope>import</scope>
+            <version>0.1.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>info.magnolia</groupId>
             <artifactId>magnolia-empty-webapp</artifactId>
             <type>war</type>
-        </dependency>
-        <dependency>
-            <groupId>info.magnolia.ui</groupId>
-            <artifactId>magnolia-ui-contentapp</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>info.magnolia.dam</groupId>
-            <artifactId>magnolia-dam-compatibility</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>info.magnolia.ui</groupId>
-            <artifactId>magnolia-ui-vaadin-integration</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
         </dependency>
     </dependencies>
 
