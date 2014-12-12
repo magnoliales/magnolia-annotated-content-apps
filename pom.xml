@@ -150,6 +150,12 @@
                 <version>${version.magnolia}</version>
             </dependency>
             <dependency>
+                <groupId>info.magnolia.pages</groupId>
+                <artifactId>magnolia-pages</artifactId>
+                <version>${version.magnolia}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
                 <groupId>javax.jcr</groupId>
                 <artifactId>jcr</artifactId>
                 <version>${version.jcr}</version>

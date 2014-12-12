@@ -6,10 +6,16 @@ import com.magnoliales.annotatedapp.availability.AvailabilityBuilder;
 import com.magnoliales.annotatedapp.column.AbstractColumnBuilder;
 import com.magnoliales.annotatedapp.node.AnnotatedNodeTypeDefinition;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import info.magnolia.cms.security.operations.ConfiguredAccessDefinition;
+import info.magnolia.ui.actionbar.definition.ConfiguredActionbarDefinition;
+import info.magnolia.ui.actionbar.definition.ConfiguredActionbarGroupDefinition;
+import info.magnolia.ui.actionbar.definition.ConfiguredActionbarItemDefinition;
+import info.magnolia.ui.actionbar.definition.ConfiguredActionbarSectionDefinition;
 import info.magnolia.ui.api.action.ActionDefinition;
 import info.magnolia.ui.api.app.SubAppDescriptor;
 import info.magnolia.ui.api.app.registry.ConfiguredAppDescriptor;
 import info.magnolia.ui.api.availability.AvailabilityDefinition;
+import info.magnolia.ui.api.availability.ConfiguredAvailabilityDefinition;
 import info.magnolia.ui.contentapp.ContentApp;
 import info.magnolia.ui.contentapp.browser.BrowserSubApp;
 import info.magnolia.ui.contentapp.browser.ConfiguredBrowserSubAppDescriptor;
@@ -25,7 +31,6 @@ import info.magnolia.ui.workbench.list.ListPresenterDefinition;
 import info.magnolia.ui.workbench.search.SearchPresenterDefinition;
 import info.magnolia.ui.workbench.tree.TreePresenterDefinition;
 import info.magnolia.ui.workbench.tree.drop.DropConstraint;
-import org.apache.commons.lang.WordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,10 +64,14 @@ public class AnnotatedContentAppsAppDescriptor extends ConfiguredAppDescriptor {
         }
 
         UI.Presenter.Column[] columnAnnotations = appAnnotation.columns();
-        getSubApps().put("browser", getBrowser(workspace, columnAnnotations));
+        Class<? extends AnnotatedActionDefinitionFactory>[] actionFactories = appAnnotation.actions();
+        getSubApps().put("browser", getBrowser(workspace, columnAnnotations, actionFactories));
     }
 
-    private SubAppDescriptor getBrowser(String workspace, UI.Presenter.Column[] columnAnnotations) {
+    private SubAppDescriptor getBrowser(String workspace,
+                                        UI.Presenter.Column[] columnAnnotations,
+                                        Class<? extends AnnotatedActionDefinitionFactory>[] actionFactories) {
+
         ConfiguredBrowserSubAppDescriptor browser = new ConfiguredBrowserSubAppDescriptor();
 
         browser.setSubAppClass(BrowserSubApp.class);
@@ -72,16 +81,49 @@ public class AnnotatedContentAppsAppDescriptor extends ConfiguredAppDescriptor {
         // @todo content connector
         browser.setContentConnector(getContentConnector(workspace));
 
-        ActionbarBuilder actionbarBuilder = new ActionbarBuilder();
         Map<String, ActionDefinition> actions = new HashMap<>();
 
-        for (TypeTree typeSubTree : typeTree.toList()) {
+        ConfiguredActionbarDefinition actionbarDefinition = new ConfiguredActionbarDefinition();
+        ConfiguredAvailabilityDefinition availabilityDefinition = new ConfiguredAvailabilityDefinition();
+        availabilityDefinition.setRoot(true);
+        availabilityDefinition.setNodes(true);
+        ConfiguredActionbarSectionDefinition sectionDefinition = new ConfiguredActionbarSectionDefinition();
+        sectionDefinition.setName("main");
+        sectionDefinition.setAvailability(availabilityDefinition);
+        for (Class<? extends AnnotatedActionDefinitionFactory> actionDefinitionFactoryClass : actionFactories) {
+            AnnotatedActionDefinitionFactory actionDefinitionFactory;
+            try {
+                actionDefinitionFactory = actionDefinitionFactoryClass.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new IllegalStateException("Cannot instantiate annotations factory", e);
+            }
+            actionDefinitionFactory.setAppName(getName());
+            actionDefinitionFactory.setTypeTree(typeTree);
+            for (AnnotatedActionDefinitionFactory.ActionGroup actionGroup :
+                    actionDefinitionFactory.getGroups()) {
+                ConfiguredActionbarGroupDefinition groupDefinition = new ConfiguredActionbarGroupDefinition();
+                groupDefinition.setName(actionGroup.getGroupName());
+                for (ActionDefinition actionDefinition : actionGroup.getActionDefinitions()) {
+                    actions.put(actionDefinition.getName(), actionDefinition);
+                    ConfiguredActionbarItemDefinition itemDefinition = new ConfiguredActionbarItemDefinition();
+                    itemDefinition.setName(actionDefinition.getName());
+                    groupDefinition.addItem(itemDefinition);
+                }
+                sectionDefinition.addGroup(groupDefinition);
+            }
+        }
+        actionbarDefinition.addSection(sectionDefinition);
 
-            String nodeTypeName = typeSubTree.getNodeTypeName();
-            String capitalizedNodeTypeName = WordUtils.capitalize(nodeTypeName);
-            String addActionName = "add" + capitalizedNodeTypeName;
-            String editActionName = "edit" + capitalizedNodeTypeName;
-            String deleteActionName = "delete" + capitalizedNodeTypeName;
+        browser.setActions(actions);
+        browser.setActionbar(actionbarDefinition);
+
+        return browser;
+    }
+
+    /*
+    private void initDefaultActionSet(ActionbarBuilder actionbarBuilder, Map<String, ActionDefinition> actions) {
+
+        for (TypeTree typeSubTree : typeTree.toList()) {
 
             AvailabilityDefinition addActionAvailability;
             if (!typeSubTree.hasParent()) {
@@ -101,13 +143,16 @@ public class AnnotatedContentAppsAppDescriptor extends ConfiguredAppDescriptor {
                     .addNodeType(nodeTypeName)
                     .definition();
             Class<?> nodeClass = typeSubTree.getRootType();
-            ActionDefinition addAction = new AddActionBuilder()
-                    .setAppName(getName())
-                    .setName(addActionName)
-                    .setFormDialogNodeClass(nodeClass)
-                    .setNodeType(nodeTypeName)
-                    .setAvailability(addActionAvailability)
-                    .definition();
+
+            AnnotatedActionDefinitionFactory factory = new BasicAnnotatedActionDefinitionFactory();
+            factory.setAppName(getName());
+            factory.setNodeClass(nodeClass);
+            factory.setAvailability(addActionAvailability);
+
+
+
+
+
             ActionDefinition editAction = new EditActionBuilder()
                     .setAppName(getName())
                     .setName(editActionName)
@@ -137,15 +182,11 @@ public class AnnotatedContentAppsAppDescriptor extends ConfiguredAppDescriptor {
             actions.put("activate", new ActivateActionBuilder().setAvailability(nodesAvailability).definition());
             actionbarBuilder.addGroup("activate", "activate");
         }
-
-        browser.setActions(actions);
-        browser.setActionbar(actionbarBuilder.definition());
-
-        return browser;
     }
+    */
 
     private List<NodeTypeDefinition> getNodeTypeDefinitions(TypeTree typeTree) {
-        List<NodeTypeDefinition> nodeTypeDefinitions = new ArrayList<NodeTypeDefinition>();
+        List<NodeTypeDefinition> nodeTypeDefinitions = new ArrayList<>();
         for (String nodeTypeName : typeTree.getNodeTypeNames()) {
             AnnotatedNodeTypeDefinition nodeTypeDefinition = new AnnotatedNodeTypeDefinition();
             nodeTypeDefinition.setName(nodeTypeName);
@@ -158,7 +199,7 @@ public class AnnotatedContentAppsAppDescriptor extends ConfiguredAppDescriptor {
         ConfiguredWorkbenchDefinition workbench = new ConfiguredWorkbenchDefinition();
         workbench.setName("workbench");
         workbench.setDropConstraintClass(dropConstraintClass);
-        List<ContentPresenterDefinition> presenters = new ArrayList<ContentPresenterDefinition>();
+        List<ContentPresenterDefinition> presenters = new ArrayList<>();
         presenters.add(getTreePresenter(columnAnnotations));
         presenters.add(getListPresenter(columnAnnotations));
         presenters.add(getSearchPresenter(columnAnnotations));

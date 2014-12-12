@@ -29,7 +29,8 @@
         <Map name="usergroups" workspaceName="usergroups" repositoryName="magnolia"/>
         <Map name="mgnlSystem" workspaceName="mgnlSystem" repositoryName="magnolia"/>
         <Map name="mgnlVersion" workspaceName="mgnlVersion" repositoryName="magnolia"/>
-        <Map name="contacts"       workspaceName="contacts"       repositoryName="magnolia"/>
+        <Map name="contacts" workspaceName="contacts" repositoryName="magnolia"/>
+        <Map name="comments" workspaceName="comments" repositoryName="magnolia"/>
     </RepositoryMapping>
     <Repository name="magnolia" provider="info.magnolia.jackrabbit.ProviderImpl" loadOnStartup="true">
         <param name="configFile" value="${magnolia.repositories.magnolia.config}"/>
@@ -45,5 +46,6 @@
         <workspace name="mgnlSystem"/>
         <workspace name="mgnlVersion"/>
         <workspace name="contacts"/>
+        <workspace name="comments"/>
     </Repository>
 </JCR>

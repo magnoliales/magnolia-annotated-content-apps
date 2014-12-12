@@ -26,4 +26,25 @@
         </propertyDefinition>
     </nodeType>
 
+    <nodeType name="comment" isMixin="false" hasOrderableChildNodes="true" primaryItemName="">
+        <supertypes>
+            <supertype>mgnl:content</supertype>
+        </supertypes>
+        <propertyDefinition name="name" autoCreated="false" mandatory="true" multiple="false" onParentVersion="COPY" protected="false" requiredType="String">
+            <defaultValues>
+                <defaultValue><![CDATA[]]></defaultValue>
+            </defaultValues>
+        </propertyDefinition>
+        <propertyDefinition name="content" autoCreated="false" mandatory="true" multiple="false" onParentVersion="COPY" protected="false" requiredType="String">
+            <defaultValues>
+                <defaultValue><![CDATA[]]></defaultValue>
+            </defaultValues>
+        </propertyDefinition>
+        <propertyDefinition name="pageId" autoCreated="false" mandatory="false" multiple="false" onParentVersion="COPY" protected="false" requiredType="String">
+            <defaultValues>
+                <defaultValue><![CDATA[]]></defaultValue>
+            </defaultValues>
+        </propertyDefinition>
+    </nodeType>
+
 </nodeTypes>

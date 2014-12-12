@@ -72,8 +72,17 @@ public final class TypeTree implements Serializable {
         return false;
     }
 
+    public List<Class<?>> getClasses() {
+        List<Class<?>> classes = new ArrayList<>();
+        classes.add(rootClass);
+        for (TypeTree child : children) {
+            classes.addAll(child.getClasses());
+        }
+        return classes;
+    }
+
     public List<String> getNodeTypeNames() {
-        List<String> types = new ArrayList<String>();
+        List<String> types = new ArrayList<>();
         types.add(nodeTypeName);
         for (TypeTree child : children) {
             types.addAll(child.getNodeTypeNames());
@@ -82,7 +91,7 @@ public final class TypeTree implements Serializable {
     }
 
     public List<TypeTree> toList() {
-        List<TypeTree> result = new ArrayList<TypeTree>();
+        List<TypeTree> result = new ArrayList<>();
         result.add(this);
         for (TypeTree child : children) {
             result.addAll(child.toList());
@@ -99,7 +108,7 @@ public final class TypeTree implements Serializable {
     }
 
     public Map<String, String> getFieldMapping() {
-        Map<String, String> mapping = new HashMap<String, String>();
+        Map<String, String> mapping = new HashMap<>();
         java.lang.reflect.Field[] declaredFields = rootClass.getDeclaredFields();
         for (java.lang.reflect.Field field : declaredFields) {
             if (field.isAnnotationPresent(Field.class)) {

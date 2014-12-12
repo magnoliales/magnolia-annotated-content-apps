@@ -15,12 +15,12 @@
             <name>annotated-app</name>
         </dependency>
     </dependencies>
-
     <repositories>
         <repository>
             <name>magnolia</name>
             <workspaces>
                 <workspace>contacts</workspace>
+                <workspace>comments</workspace>
             </workspaces>
             <nodeTypeFile>/mgnl-nodetypes/nodetypes.xml</nodeTypeFile>
         </repository>

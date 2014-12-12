@@ -6,13 +6,14 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
 @Node(jcrType = "contact", discriminator = false)
-@UI.App(name = "Example Annotated App",
+@UI.App(name = "contacts",
         workspace = "contacts",
         columns = {
                 @UI.Presenter.Column(name = "name", property = "name"),
                 @UI.Presenter.Column(name = "surname", property = "surname"),
                 @UI.Presenter.Column(name = "lastModified", builder = LastModifiedColumnBuilder.class)
-        })
+        }
+)
 public class Contact {
 
     @Field(jcrName = "jcr:uuid")

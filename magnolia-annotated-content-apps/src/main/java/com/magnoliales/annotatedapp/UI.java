@@ -1,5 +1,8 @@
 package com.magnoliales.annotatedapp;
 
+import com.magnoliales.annotatedapp.actions.AnnotatedActionDefinitionFactory;
+import com.magnoliales.annotatedapp.actions.EditActionDefinitionFactory;
+import com.magnoliales.annotatedapp.actions.ExportActionDefinitionFactory;
 import com.magnoliales.annotatedapp.column.AbstractColumnBuilder;
 import com.magnoliales.annotatedapp.column.PropertyColumnBuilder;
 import com.magnoliales.annotatedapp.field.CheckboxFieldBuilder;
@@ -14,20 +17,27 @@ import java.lang.annotation.Target;
 
 public interface UI {
 
-    @Retention(RetentionPolicy.RUNTIME) @Target({ ElementType.TYPE })
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({ ElementType.TYPE })
     public @interface NoActivation { }
 
-    @Retention(RetentionPolicy.RUNTIME) @Target({ ElementType.TYPE })
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({ ElementType.TYPE })
     public @interface App {
         String name();
         String workspace();
         String theme() default "";
         Presenter.Column[] columns() default { };
+        Class<? extends AnnotatedActionDefinitionFactory>[] actions() default {
+                EditActionDefinitionFactory.class,
+                ExportActionDefinitionFactory.class
+        };
     }
 
     public interface Presenter {
 
-        @Retention(RetentionPolicy.RUNTIME) @Target({ ElementType.TYPE })
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target({ ElementType.TYPE })
         public @interface Column {
             String name();
             String property() default "jcrName";
@@ -41,31 +51,36 @@ public interface UI {
 
     public interface Dialog {
 
-        @Retention(RetentionPolicy.RUNTIME) @Target({ ElementType.FIELD })
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target({ ElementType.FIELD })
         public @interface Field {
             Class<? extends FieldBuilder> value();
         }
 
-        @Retention(RetentionPolicy.RUNTIME) @Target({ ElementType.FIELD })
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target({ ElementType.FIELD })
         public @interface TextField {
             String rows() default "1";
             Class<? extends FieldBuilder> implementation() default TextFieldBuilder.class;
         }
 
-        @Retention(RetentionPolicy.RUNTIME) @Target({ ElementType.FIELD })
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target({ ElementType.FIELD })
         public @interface CheckboxField {
             boolean defaultValue() default false;
             Class<? extends FieldBuilder> implementation() default CheckboxFieldBuilder.class;
         }
 
-        @Retention(RetentionPolicy.RUNTIME) @Target({ ElementType.FIELD })
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target({ ElementType.FIELD })
         public @interface SelectField {
             String[] value() default { };
             Class<? extends FieldBuilder> implementation() default SelectFieldBuilder.class;
         }
     }
 
-    @Retention(RetentionPolicy.RUNTIME) @Target({ ElementType.FIELD })
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({ ElementType.FIELD })
     public @interface ChildNodes {
         Class<?> childClassName() default Object.class;
     }
