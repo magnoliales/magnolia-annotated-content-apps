@@ -4,11 +4,26 @@ import com.magnoliales.annotatedapp.TypeTree;
 
 import java.util.List;
 
-public interface AnnotatedActionDefinitions {
+abstract public class AnnotatedActionDefinitions {
 
-    void setAppName(String appName);
+    private String appName;
+    private TypeTree typeTree;
 
-    void setTypeTree(TypeTree typeTree);
+    public void setAppName(String appName) {
+        this.appName = appName;
+    }
 
-    public List<ActionDefinitionGroup> getGroups();
+    public void setTypeTree(TypeTree typeTree) {
+        this.typeTree = typeTree;
+    }
+
+    protected String getAppName() {
+        return appName;
+    }
+
+    protected TypeTree getTypeTree() {
+        return typeTree;
+    }
+
+    public abstract List<ActionDefinitionGroup> getActionDefinitionGroups();
 }

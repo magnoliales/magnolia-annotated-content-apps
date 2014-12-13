@@ -96,7 +96,7 @@ public class AnnotatedContentAppDescriptor extends ConfiguredAppDescriptor {
             }
             actionDefinitionFactory.setAppName(getName());
             actionDefinitionFactory.setTypeTree(typeTree);
-            for (ActionDefinitionGroup actionDefinitionGroup : actionDefinitionFactory.getGroups()) {
+            for (ActionDefinitionGroup actionDefinitionGroup : actionDefinitionFactory.getActionDefinitionGroups()) {
                 ConfiguredActionbarGroupDefinition groupDefinition = new ConfiguredActionbarGroupDefinition();
                 groupDefinition.setName(actionDefinitionGroup.getGroupName());
                 for (ActionDefinition actionDefinition : actionDefinitionGroup.getActionDefinitions()) {
