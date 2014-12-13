@@ -1,6 +1,6 @@
 package com.magnoliales.annotatedapp.task;
 
-import com.magnoliales.annotatedapp.AnnotatedContentAppsAppDescriptor;
+import com.magnoliales.annotatedapp.AnnotatedContentAppDescriptor;
 import info.magnolia.jcr.util.NodeTypes;
 import info.magnolia.jcr.util.NodeUtil;
 import info.magnolia.module.InstallContext;
@@ -13,15 +13,15 @@ import javax.jcr.Session;
 
 public class AnnotatedContentAppInstallTask extends AbstractRepositoryTask {
 
-    private Class<? extends AnnotatedContentAppsAppDescriptor> appClass;
+    private Class<? extends AnnotatedContentAppDescriptor> appClass;
     private String appName;
     private String appGroup;
 
-    public AnnotatedContentAppInstallTask(Class<? extends AnnotatedContentAppsAppDescriptor> appClass, String appGroup) {
+    public AnnotatedContentAppInstallTask(Class<? extends AnnotatedContentAppDescriptor> appClass, String appGroup) {
         this(appClass.getSimpleName(), appGroup, appClass);
     }
 
-    public AnnotatedContentAppInstallTask(String appName, String appGroup, Class<? extends AnnotatedContentAppsAppDescriptor> appClass) {
+    public AnnotatedContentAppInstallTask(String appName, String appGroup, Class<? extends AnnotatedContentAppDescriptor> appClass) {
         super(
                 String.format("Install '%s'", appClass.getCanonicalName()),
                 String.format("Installing content app named of class '%s' under name '%s'.", appClass.getCanonicalName(), appName)

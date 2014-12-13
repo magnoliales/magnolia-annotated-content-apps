@@ -1,11 +1,10 @@
 package app;
 
-import com.magnoliales.annotatedapp.AnnotatedContentAppsAppDescriptor;
+import com.magnoliales.annotatedapp.AnnotatedContentAppDescriptor;
 import com.magnoliales.annotatedapp.constraint.AnnotatedDropConstraint;
-import info.magnolia.ui.api.action.ActionDefinition;
 import nodes.Contact;
 
-public class ContactsAppDescriptor extends AnnotatedContentAppsAppDescriptor {
+public class ContactsAppDescriptor extends AnnotatedContentAppDescriptor {
 
     public ContactsAppDescriptor() {
         super(Contact.class, ContactsDropConstraint.class);

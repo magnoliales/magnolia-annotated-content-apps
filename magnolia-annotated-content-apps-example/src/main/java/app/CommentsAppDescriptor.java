@@ -1,11 +1,11 @@
 package app;
 
-import com.magnoliales.annotatedapp.AnnotatedContentAppsAppDescriptor;
+import com.magnoliales.annotatedapp.AnnotatedContentAppDescriptor;
 import com.magnoliales.annotatedapp.constraint.AnnotatedDropConstraint;
 import info.magnolia.ui.api.action.ConfiguredActionDefinition;
 import nodes.Comment;
 
-public class CommentsAppDescriptor extends AnnotatedContentAppsAppDescriptor {
+public class CommentsAppDescriptor extends AnnotatedContentAppDescriptor {
 
     public CommentsAppDescriptor() {
         super(Comment.class, CommentsDropConstraint.class);

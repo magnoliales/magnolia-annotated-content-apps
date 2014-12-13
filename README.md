@@ -50,3 +50,5 @@ To Do
 - Add search panel
 - Let specify the node types with CND?
 - Unify namings to match Magnolia naming patterns, prepare everything to be as Magnolia conform as possible
+- Move everything into Guice kind of things to get rid of all possible factories, and let people register whatever they
+  want without depending of specific factory types

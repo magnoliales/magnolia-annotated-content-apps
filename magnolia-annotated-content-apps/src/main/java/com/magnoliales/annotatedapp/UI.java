@@ -1,8 +1,8 @@
 package com.magnoliales.annotatedapp;
 
-import com.magnoliales.annotatedapp.actions.AnnotatedActionDefinitionFactory;
-import com.magnoliales.annotatedapp.actions.EditActionDefinitionFactory;
-import com.magnoliales.annotatedapp.actions.ExportActionDefinitionFactory;
+import com.magnoliales.annotatedapp.actions.AnnotatedActionDefinitions;
+import com.magnoliales.annotatedapp.actions.EditActionDefinitions;
+import com.magnoliales.annotatedapp.actions.ExportActionDefinitions;
 import com.magnoliales.annotatedapp.column.AbstractColumnBuilder;
 import com.magnoliales.annotatedapp.column.PropertyColumnBuilder;
 import com.magnoliales.annotatedapp.field.CheckboxFieldBuilder;
@@ -28,9 +28,9 @@ public interface UI {
         String workspace();
         String theme() default "";
         Presenter.Column[] columns() default { };
-        Class<? extends AnnotatedActionDefinitionFactory>[] actions() default {
-                EditActionDefinitionFactory.class,
-                ExportActionDefinitionFactory.class
+        Class<? extends AnnotatedActionDefinitions>[] actions() default {
+                EditActionDefinitions.class,
+                ExportActionDefinitions.class
         };
     }
 

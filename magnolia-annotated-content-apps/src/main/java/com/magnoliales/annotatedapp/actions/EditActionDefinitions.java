@@ -1,6 +1,5 @@
 package com.magnoliales.annotatedapp.actions;
 
-import com.magnoliales.annotatedapp.TypeTree;
 import com.magnoliales.annotatedapp.dialog.AnnotatedFormDialogDefinitionProvider;
 import info.magnolia.objectfactory.Components;
 import info.magnolia.ui.api.action.ActionDefinition;
@@ -17,29 +16,16 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EditActionDefinitionFactory implements AnnotatedActionDefinitionFactory {
+public class EditActionDefinitions extends AbstractAnnotatedActionDefinitions {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(EditActionDefinitionFactory.class);
-
-    private String appName;
-    private TypeTree typeTree;
+    private static final Logger LOGGER = LoggerFactory.getLogger(EditActionDefinitions.class);
 
     @Override
-    public void setAppName(String appName) {
-        this.appName = appName;
-    }
-
-    @Override
-    public void setTypeTree(TypeTree typeTree) {
-        this.typeTree = typeTree;
-    }
-
-    @Override
-    public List<ActionGroup> getGroups() {
-        List<ActionGroup> groups = new ArrayList<>();
-        for (Class<?> nodeClass : typeTree.getClasses()) {
+    public List<ActionDefinitionGroup> getGroups() {
+        List<ActionDefinitionGroup> groups = new ArrayList<>();
+        for (Class<?> nodeClass : getTypeTree().getClasses()) {
             String nodeTypeName = nodeClass.getAnnotation(Node.class).jcrType();
-            groups.add(new ActionGroup(nodeTypeName, new ActionDefinition[]{
+            groups.add(new ActionDefinitionGroup(nodeTypeName, new ActionDefinition[]{
                     getAddActionDefinition(nodeClass, nodeTypeName),
                     getEditActionDefinition(nodeClass, nodeTypeName),
                     getDeleteActionDefinition(nodeClass, nodeTypeName)
@@ -53,7 +39,7 @@ public class EditActionDefinitionFactory implements AnnotatedActionDefinitionFac
         OpenCreateDialogActionDefinition actionDefinition = new OpenCreateDialogActionDefinition();
 
         String actionName = "add" + WordUtils.capitalize(nodeTypeName);
-        String id = appName + ":" + actionName;
+        String id = getAppName() + ":" + actionName;
 
         LOGGER.info("Registering dialog '" + id + "'. Node type '" + nodeTypeName + "'");
 
@@ -67,7 +53,7 @@ public class EditActionDefinitionFactory implements AnnotatedActionDefinitionFac
         actionDefinition.setIcon("icon-add-node-content");
 
         ConfiguredAvailabilityDefinition availabilityDefinition = new ConfiguredAvailabilityDefinition();
-        if (typeTree.getRootType().equals(nodeClass)) {
+        if (getTypeTree().getRootType().equals(nodeClass)) {
             availabilityDefinition.setRoot(true);
             availabilityDefinition.setNodes(false);
         } else {
@@ -84,7 +70,7 @@ public class EditActionDefinitionFactory implements AnnotatedActionDefinitionFac
         OpenEditDialogActionDefinition actionDefinition = new OpenEditDialogActionDefinition();
 
         String actionName = "edit" + WordUtils.capitalize(nodeTypeName);
-        String id = appName + ":" + actionName;
+        String id = getAppName() + ":" + actionName;
 
         LOGGER.info("Registering dialog '" + id + "'. Node type '" + nodeTypeName + "'");
 
@@ -110,7 +96,7 @@ public class EditActionDefinitionFactory implements AnnotatedActionDefinitionFac
         DeleteItemActionDefinition actionDefinition = new DeleteItemActionDefinition();
 
         String actionName = "delete" + WordUtils.capitalize(nodeTypeName);
-        String id = appName + ":" + actionName;
+        String id = getAppName() + ":" + actionName;
 
         LOGGER.info("Registering dialog '" + id + "'. Node type '" + nodeTypeName + "'");
 

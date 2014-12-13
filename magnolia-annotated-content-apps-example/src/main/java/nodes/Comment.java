@@ -1,7 +1,7 @@
 package nodes;
 
 import com.magnoliales.annotatedapp.UI;
-import com.magnoliales.annotatedapp.actions.EditActionDefinitionFactory;
+import com.magnoliales.annotatedapp.actions.EditActionDefinitions;
 import com.magnoliales.annotatedapp.column.LastModifiedColumnBuilder;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
@@ -15,7 +15,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
                 @UI.Presenter.Column(name = "lastModified", builder = LastModifiedColumnBuilder.class)
         },
         actions = {
-                EditActionDefinitionFactory.class
+                EditActionDefinitions.class
         }
 )
 public class Comment {

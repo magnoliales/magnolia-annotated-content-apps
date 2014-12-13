@@ -1,6 +1,5 @@
 package com.magnoliales.annotatedapp.actions;
 
-import com.magnoliales.annotatedapp.TypeTree;
 import info.magnolia.ui.api.action.ActionDefinition;
 import info.magnolia.ui.api.availability.ConfiguredAvailabilityDefinition;
 import info.magnolia.ui.framework.action.ExportActionDefinition;
@@ -12,27 +11,14 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExportActionDefinitionFactory implements AnnotatedActionDefinitionFactory {
+public class ExportActionDefinitions extends AbstractAnnotatedActionDefinitions {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExportActionDefinitionFactory.class);
-
-    private String appName;
-    private TypeTree typeTree;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExportActionDefinitions.class);
 
     @Override
-    public void setAppName(String appName) {
-        this.appName = appName;
-    }
-
-    @Override
-    public void setTypeTree(TypeTree typeTree) {
-        this.typeTree = typeTree;
-    }
-
-    @Override
-    public List<ActionGroup> getGroups() {
-        List<ActionGroup> groups = new ArrayList<>();
-        groups.add(new ActionGroup("export", new ActionDefinition[] {
+    public List<ActionDefinitionGroup> getGroups() {
+        List<ActionDefinitionGroup> groups = new ArrayList<>();
+        groups.add(new ActionDefinitionGroup("export", new ActionDefinition[] {
             getExportActionDefinition(),
             getImportActionDefinition()
         }));
@@ -43,7 +29,7 @@ public class ExportActionDefinitionFactory implements AnnotatedActionDefinitionF
 
         ExportActionDefinition actionDefinition = new ExportActionDefinition();
 
-        String actionName = "export" + WordUtils.capitalize(appName);
+        String actionName = "export" + WordUtils.capitalize(getAppName());
 
         actionDefinition.setName(actionName);
         actionDefinition.setCommand("export");
@@ -61,7 +47,7 @@ public class ExportActionDefinitionFactory implements AnnotatedActionDefinitionF
 
         OpenCreateDialogActionDefinition actionDefinition = new OpenCreateDialogActionDefinition();
 
-        String actionName = "import" + WordUtils.capitalize(appName);
+        String actionName = "import" + WordUtils.capitalize(getAppName());
 
         actionDefinition.setName(actionName);
         actionDefinition.setDialogName("ui-admincentral:import");
