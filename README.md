@@ -52,3 +52,5 @@ To Do
 - Unify namings to match Magnolia naming patterns, prepare everything to be as Magnolia conform as possible
 - Move everything into Guice kind of things to get rid of all possible factories, and let people register whatever they
   want without depending of specific factory types
+- See if it would be better to cache the factory definition
+- register type tree with guice so that we could create Drop constraint through container

@@ -15,7 +15,7 @@ import java.util.List;
 public class ExportActionDefinitions extends AnnotatedActionDefinitions {
 
     @Override
-    public List<ActionDefinitionGroup> getActionDefinitionGroups() {
+    protected List<ActionDefinitionGroup> createActionDefinitionGroups() {
         List<ActionDefinitionGroup> groups = new ArrayList<>();
         groups.add(new ActionDefinitionGroup("export", new ActionDefinition[] {
             getExportActionDefinition(),

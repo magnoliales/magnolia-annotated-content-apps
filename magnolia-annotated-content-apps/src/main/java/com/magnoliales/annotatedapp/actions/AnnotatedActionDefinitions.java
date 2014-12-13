@@ -8,6 +8,7 @@ abstract public class AnnotatedActionDefinitions {
 
     private String appName;
     private TypeTree typeTree;
+    private List<ActionDefinitionGroup> actionDefinitionGroups;
 
     public void setAppName(String appName) {
         this.appName = appName;
@@ -25,5 +26,15 @@ abstract public class AnnotatedActionDefinitions {
         return typeTree;
     }
 
-    public abstract List<ActionDefinitionGroup> getActionDefinitionGroups();
+    public List<ActionDefinitionGroup> getActionDefinitionGroups() {
+        if (appName == null || typeTree == null) {
+            throw new IllegalStateException("Action definition factory is not properly initialized");
+        }
+        if (actionDefinitionGroups == null) {
+            actionDefinitionGroups = createActionDefinitionGroups();
+        }
+        return actionDefinitionGroups;
+    }
+
+    protected abstract List<ActionDefinitionGroup> createActionDefinitionGroups();
 }

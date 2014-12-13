@@ -22,7 +22,7 @@ public class EditActionDefinitions extends AnnotatedActionDefinitions {
     private static final Logger LOGGER = LoggerFactory.getLogger(EditActionDefinitions.class);
 
     @Override
-    public List<ActionDefinitionGroup> getActionDefinitionGroups() {
+    protected List<ActionDefinitionGroup> createActionDefinitionGroups() {
         List<ActionDefinitionGroup> groups = new ArrayList<>();
         for (Class<?> nodeClass : getTypeTree().getClasses()) {
             String nodeTypeName = nodeClass.getAnnotation(Node.class).jcrType();

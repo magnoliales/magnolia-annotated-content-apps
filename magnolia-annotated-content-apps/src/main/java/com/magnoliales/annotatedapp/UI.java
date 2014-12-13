@@ -19,10 +19,6 @@ public interface UI {
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ ElementType.TYPE })
-    public @interface NoActivation { }
-
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target({ ElementType.TYPE })
     public @interface App {
         String name();
         String workspace();
