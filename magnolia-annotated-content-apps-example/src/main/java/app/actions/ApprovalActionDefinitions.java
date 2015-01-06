@@ -6,12 +6,14 @@ import com.magnoliales.annotatedapp.actions.AnnotatedActionDefinitions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ApproveActionDefinitions extends AnnotatedActionDefinitions {
+public class ApprovalActionDefinitions extends AnnotatedActionDefinitions {
 
     @Override
     protected List<ActionDefinitionGroup> createActionDefinitionGroups() {
         List<ActionDefinitionGroup> groups = new ArrayList<>();
-        groups.add(new ActionDefinitionGroup("approve",
+        groups.add(new ActionDefinitionGroup("approval",
+                new ApproveActionDefinition(),
+                new RejectActionDefinition(),
                 new ViewPageActionDefinition()
         ));
         return groups;

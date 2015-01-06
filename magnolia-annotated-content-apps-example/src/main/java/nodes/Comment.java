@@ -1,6 +1,8 @@
 package nodes;
 
-import app.actions.ApproveActionDefinitions;
+import app.actions.ApprovalActionDefinitions;
+import app.columns.ApprovalColumnBuilder;
+import app.columns.ApprovalColumnFormatter;
 import com.magnoliales.annotatedapp.UI;
 import com.magnoliales.annotatedapp.actions.EditActionDefinitions;
 import com.magnoliales.annotatedapp.column.LastModifiedColumnBuilder;
@@ -12,15 +14,17 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
         workspace = "comments",
         columns = {
                 @UI.Presenter.Column(name = "name", property = "name"),
-                @UI.Presenter.Column(name = "content", property = "content"),
+                @UI.Presenter.Column(name = "approved", builder = ApprovalColumnBuilder.class),
                 @UI.Presenter.Column(name = "lastModified", builder = LastModifiedColumnBuilder.class)
         },
         actions = {
                 EditActionDefinitions.class,
-                ApproveActionDefinitions.class
+                ApprovalActionDefinitions.class
         }
 )
 public class Comment {
+
+    public static String APPROVED_FIELD = "approved";
 
     @Field(jcrName = "jcr:uuid")
     private String id;

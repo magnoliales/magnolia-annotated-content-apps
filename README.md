@@ -2,6 +2,7 @@ Magnolia annotated app builder
 ==============================
 
 For the compilation add the following repositories to your a profile in `settings.xml`
+
 ```xml
 <settings>
     ...
@@ -36,15 +37,17 @@ For the compilation add the following repositories to your a profile in `setting
 </settings>
 ```
 
-- Execute in the parent `mvn clean install -P magnolia development`
-- Move to the example project and execute `mvn jetty:run -P magnolia development`
+- Execute in the parent `mvn clean install -P magnolia,development`
+- Move to the example project and execute `mvn jetty:run -P magnolia,development`
 
 
 To Do
 -----
 
-- ~~Automatically add apps into the annotated-content-apps module and to the ui-admincentral app launcher~~ ( completed using AnnotatedContentAppInstallTask )
-- ~~Automatically scan packages for annotated content apps to remove the requirement of separate AppDescriptor classes~~ ( decided against auto scanning, and using install tasks instead )
+- ~~Automatically add apps into the annotated-content-apps module and to the ui-admincentral app launcher~~ ( completed
+  using AnnotatedContentAppInstallTask )
+- ~~Automatically scan packages for annotated content apps to remove the requirement of separate AppDescriptor classes~~
+  ( decided against auto scanning, and using install tasks instead )
 - Simplify AppDescriptor and UI.App annotations ( * in progress * )
 - Integrate apps with a ContentConnector to pull remote content, eg Twitter
 - Add search panel
@@ -56,3 +59,4 @@ To Do
 - register type tree with guice so that we could create Drop constraint through container
 - Change the builder patterns to the default set (match every builder to an annotation)
 - Make sure people can add their own field definitions (by providing a class name)
+
