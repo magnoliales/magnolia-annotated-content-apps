@@ -41,6 +41,8 @@ enum AnnotatedFormDialogDefinitionFactory {
                 fieldGeneratorClass = field.getAnnotation(UI.Dialog.SelectField.class).implementation();
             } else if (field.isAnnotationPresent(UI.Dialog.TextField.class)) {
                 fieldGeneratorClass = field.getAnnotation(UI.Dialog.TextField.class).implementation();
+            } else if (field.isAnnotationPresent(UI.Dialog.LinkField.class)) {
+                fieldGeneratorClass = field.getAnnotation(UI.Dialog.LinkField.class).implementation();
             }
             if (fieldGeneratorClass != null) {
                 try {

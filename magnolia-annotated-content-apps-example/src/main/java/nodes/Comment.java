@@ -1,5 +1,6 @@
 package nodes;
 
+import app.actions.ApproveActionDefinitions;
 import com.magnoliales.annotatedapp.UI;
 import com.magnoliales.annotatedapp.actions.EditActionDefinitions;
 import com.magnoliales.annotatedapp.column.LastModifiedColumnBuilder;
@@ -15,7 +16,8 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
                 @UI.Presenter.Column(name = "lastModified", builder = LastModifiedColumnBuilder.class)
         },
         actions = {
-                EditActionDefinitions.class
+                EditActionDefinitions.class,
+                ApproveActionDefinitions.class
         }
 )
 public class Comment {
@@ -32,6 +34,7 @@ public class Comment {
     private String content;
 
     @Field
+    @UI.Dialog.LinkField
     private String pageId; // <- add magnolia resolver to connect to elements in different workspace
 
     public String getId() {

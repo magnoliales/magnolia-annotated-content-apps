@@ -36,7 +36,7 @@ public class ViewPageAction extends AbstractAction<ViewPageActionDefinition> {
         try {
             Node commentNode = nodeAdapter.getJcrItem();
             String pageId = PropertyUtil.getString(commentNode, "pageId");
-            Node pageNode = NodeUtil.getNodeByIdentifier("pages", pageId);
+            Node pageNode = NodeUtil.getNodeByIdentifier("website", pageId);
             if (!NodeUtil.isNodeType(pageNode, NodeTypes.Page.NAME)) {
                 pageNode = NodeUtil.getNearestAncestorOfType(pageNode, NodeTypes.Page.NAME);
             }

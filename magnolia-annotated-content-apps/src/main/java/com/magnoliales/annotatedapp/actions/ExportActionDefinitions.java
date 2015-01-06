@@ -15,10 +15,10 @@ public class ExportActionDefinitions extends AnnotatedActionDefinitions {
     @Override
     protected List<ActionDefinitionGroup> createActionDefinitionGroups() {
         List<ActionDefinitionGroup> groups = new ArrayList<>();
-        groups.add(new ActionDefinitionGroup("export", new ActionDefinition[] {
-            getExportActionDefinition(),
-            getImportActionDefinition()
-        }));
+        groups.add(new ActionDefinitionGroup("export",
+                getExportActionDefinition(),
+                getImportActionDefinition()
+        ));
         return groups;
     }
 

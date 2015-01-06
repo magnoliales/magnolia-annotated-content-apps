@@ -5,10 +5,7 @@ import com.magnoliales.annotatedapp.actions.EditActionDefinitions;
 import com.magnoliales.annotatedapp.actions.ExportActionDefinitions;
 import com.magnoliales.annotatedapp.column.AbstractColumnBuilder;
 import com.magnoliales.annotatedapp.column.PropertyColumnBuilder;
-import com.magnoliales.annotatedapp.field.CheckboxFieldBuilder;
-import com.magnoliales.annotatedapp.field.FieldBuilder;
-import com.magnoliales.annotatedapp.field.SelectFieldBuilder;
-import com.magnoliales.annotatedapp.field.TextFieldBuilder;
+import com.magnoliales.annotatedapp.field.*;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -72,6 +69,12 @@ public interface UI {
         public @interface SelectField {
             String[] value() default { };
             Class<? extends FieldBuilder> implementation() default SelectFieldBuilder.class;
+        }
+
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target({ ElementType.FIELD })
+        public @interface LinkField {
+            Class<? extends FieldBuilder> implementation() default LinkFieldBuilder.class;
         }
     }
 

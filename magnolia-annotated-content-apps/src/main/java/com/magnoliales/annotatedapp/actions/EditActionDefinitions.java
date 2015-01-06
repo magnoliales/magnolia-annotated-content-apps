@@ -26,11 +26,11 @@ public class EditActionDefinitions extends AnnotatedActionDefinitions {
         List<ActionDefinitionGroup> groups = new ArrayList<>();
         for (Class<?> nodeClass : getTypeTree().getClasses()) {
             String nodeTypeName = nodeClass.getAnnotation(Node.class).jcrType();
-            groups.add(new ActionDefinitionGroup(nodeTypeName, new ActionDefinition[]{
+            groups.add(new ActionDefinitionGroup(nodeTypeName,
                     getAddActionDefinition(nodeClass, nodeTypeName),
                     getEditActionDefinition(nodeClass, nodeTypeName),
                     getDeleteActionDefinition(nodeClass, nodeTypeName)
-            }));
+            ));
         }
         return groups;
     }

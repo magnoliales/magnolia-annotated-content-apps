@@ -12,7 +12,7 @@ public class ActionDefinitionGroup {
 
     private Collection<ActionDefinition> actionDefinitions;
 
-    public ActionDefinitionGroup(String groupName, ActionDefinition[] actionDefinitions) {
+    public ActionDefinitionGroup(String groupName, ActionDefinition... actionDefinitions) {
         this.groupName = groupName;
         this.actionDefinitions = Collections.unmodifiableCollection(Arrays.asList(actionDefinitions));
     }
