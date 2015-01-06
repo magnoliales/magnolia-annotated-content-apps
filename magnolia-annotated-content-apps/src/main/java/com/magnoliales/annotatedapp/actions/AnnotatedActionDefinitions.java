@@ -4,7 +4,7 @@ import com.magnoliales.annotatedapp.TypeTree;
 
 import java.util.List;
 
-abstract public class AnnotatedActionDefinitions {
+public abstract class AnnotatedActionDefinitions {
 
     private String appName;
     private TypeTree typeTree;

@@ -6,8 +6,6 @@ import info.magnolia.ui.api.availability.ConfiguredAvailabilityDefinition;
 import info.magnolia.ui.framework.action.ExportActionDefinition;
 import info.magnolia.ui.framework.action.OpenCreateDialogActionDefinition;
 import org.apache.commons.lang.WordUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;

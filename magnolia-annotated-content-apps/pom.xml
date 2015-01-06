@@ -7,10 +7,10 @@
     <parent>
         <groupId>com.magnoliales</groupId>
         <artifactId>magnolia-annotated-content-apps-parent</artifactId>
-        <version>0.1.2-SNAPSHOT</version>
+        <version>0.1.3-SNAPSHOT</version>
     </parent>
     <artifactId>magnolia-annotated-content-apps</artifactId>
-    <version>0.1.2-SNAPSHOT</version>
+    <version>0.1.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <build>
