@@ -54,3 +54,5 @@ To Do
   want without depending of specific factory types
 - See if it would be better to cache the factory definition
 - register type tree with guice so that we could create Drop constraint through container
+- Change the builder patterns to the default set (match every builder to an annotation)
+- Make sure people can add their own field definitions (by providing a class name)
